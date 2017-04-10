@@ -1,38 +1,73 @@
----
+sudo: required
+dist: trusty
 language: node_js
-node_js:
-  - "4"
 
-sudo: false
+node_js:
+- '6.9.1'
+- 'stable'
+
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    - google-chrome
+    packages:
+    - google-chrome-stable
+    - g++-4.8
 
 cache:
   directories:
-    - node_modules
+  - node_modules
 
 env:
+  matrix:
   - EMBER_TRY_SCENARIO=default
-  - EMBER_TRY_SCENARIO=ember-1.13
   - EMBER_TRY_SCENARIO=ember-release
   - EMBER_TRY_SCENARIO=ember-beta
   - EMBER_TRY_SCENARIO=ember-canary
+  - EMBER_TRY_SCENARIO=ember-2-8
+  global:
+    - CXX=g++-4.8
+    - secure: jACWsuRuIrrRuI+h2YQ8WRVm0RqxjZordG2uMtdPLOxSetPPp4Rr6mCZy61HRhxf14lVOIrrQ8tj4V7wPjwDFBl3TyBXjtcMaF18bVzmdbI6FRhJclHaG6Hfouw7ipzKmxTF7VfpwF5PFonS81k+j2LWABg9v/OkjKpnd86Jy+H/EwQFAShIICvx/q0yQqcrHf+71FSNRSZxg7+Q6cAglxggIuIqPnbhSCcbPBLn1fh94pKrCpAbH/0f/0pIcNtDkQseV6cBmx+gjXHnjD5jg+ZMTn7zXsxamR2us/cyRAukri7ViCBHjLQuTLQS1fjePX4nTvNZtDe0otgJA/LmIvTEN91X4eQ258pEM1dTt3FaJPB0TlXt4qhEvxA9RDa/bRe8aPEsGMv4o8Uql6GeGHaj75QQb0VYMS7iuQOnIIC91AFqkVRHsH+9gdrMNRwVAKa3ElyNpk5FddSgi1pmpqRrWAzzBBj7E+xLayPHC4PjM5nI5pYSLHguAKg4WmCysZ2nHrzl2vvj8Js6crPtJU39X1JTytnpk79rwWzrGdYc1WIuKOwoJ3JFD2puzNbWqciv3e5eF9fQJFIHObE8IngEdJeRtue0pfI8Q4nvW3VWikt6aZ+UuHTZvBthIfwGiB5lNrrCrseSDdYrYEnDpDcFJ8dzW0opYUZFo8dl8Mg=
 
 matrix:
   fast_finish: true
   allow_failures:
-    - env: EMBER_TRY_SCENARIO=ember-canary
+  - env: EMBER_TRY_SCENARIO=ember-canary
 
 before_install:
-  - npm config set spin false
-  - npm install -g bower
-  - bower --version
-  - npm install phantomjs-prebuilt
-  - node_modules/phantomjs-prebuilt/bin/phantomjs --version
+- npm config set spin false
+- npm install -g coveralls pr-bumper@^1.0.0
+- $(npm root -g)/pr-bumper/.travis/maybe-check-scope.sh
 
 install:
-  - npm install
-  - bower install
+- $(npm root -g)/pr-bumper/.travis/maybe-install.sh
+
+before_script:
+- "export DISPLAY=:99.0"
+- "sh -e /etc/init.d/xvfb start"
+- sleep 3 # give xvfb some time to start
 
 script:
-  # Usually, it's ok to finish the test scenario without reverting
-  #  to the addon's original dependency state, skipping "cleanup".
-  - ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup
+- $(npm root -g)/pr-bumper/.travis/maybe-test.sh
+- .travis/maybe-bump-version.sh
+
+after_success:
+- .travis/maybe-publish-coverage.sh
+- .travis/maybe-publish-gh-pages.sh
+
+deploy:
+  provider: npm
+  email: npm.ciena@gmail.com
+  skip_cleanup: true
+  api_key:
+    secure: jblImA7Q2zMGmQmeGbQjq3UCPeBrj7fIrbCzO7JvWUdq9x+xLchlf4vMqwK1xNBF17hg5acTYW9LzvEWcw5J3mZrJ6QL3cbFdU2fcwFBK5SIxW+z5lmTSAQa8BUe1DXGM4uUU7RSLJdQWlSfT3AOEDopOSWKXjAEWAzGmAWEJ5sceF5OAtocxUqKbReUxKMsSzxd4/HoAVbHnETqm0EFN53fWzeY+PSDydKJEVC+FgTTEw03AgdR0jgr3O6ziNNa/ZjdkyWet8Gv0vTGI95x43m+KxjQ6YWbxy+HUNp5FPAr0/dc5XSq2AcZIPQEqh7oTjgxURJnP+Zyzz0ZorN7XT9We3cjKw1+pKdepoleI6bB90oSiitdCB7Kv9irszGTYZ9uNTYclEhraItYWkKpZeZNHffQ4Zu21CDIeHXArjL6jvlmEBfgLmc4bGoLwC/tHiUzU+7pFW4rt5qFKFpLbzo4zLhmAJC6gh5gj69x+d8E6fk9yWnXz8Y17XTwAyaYWTYcygEZhVuvkYYZSn1F7Aqd/+AxvdZqSna7IMSzwhK68Epwo8AB0456+spP2K/yaLpXEN0TdFHB6xCszbmdOUEs9hXMa1jzCh76O1DL/L43ySS/q7lzcUFsdyyqRAhMUVS3vdHyUvc3FpIaAbbO6wcutklBGlhHpSyJg/I2Kx4=
+  on:
+    all_branches: true
+    condition: "$EMBER_TRY_SCENARIO = 'default'"
+    node: '6.9.1'
+    tags: true
+    
+notifications:
+  slack:
+    secure: iHubTCYToBoBNK500kWxIoOs1vyM3zYBLD+YkNXLyvM5T0AV08Us3oCUfMnLcZJz92qs22o5Dkb9OTJewIC+5RexgROaQCWdlAyVnGOLKcfHL/XH5Q1ln9O/et3ye+bUBjWHOm0FVvz7tllLMYyU8+282IqL09bkHFEz3A/ygK9CaTUFotpOITDkpor5yw+2wAyVjLPh41BwuQcUlW0PzWSrO98gKPZkpkyWJ8eokxOyKLhYXXKO+tnr/qdJGYBVCVsmYGFfPufYXiApbc+Hn859vuRMT1RKu9eVUfaOX2suU+m3Ie7+eJe+x39vJ9sKImgXnlGaFBpfkiVIr+Zuzihuf7F37dRHMCOpiSzGqFjkRJsyAdZsotBujZ1+Kdzz8RY+e1MsXBeACBmn7z83nbb96f+64WPeamgp0Y1KTv7iw5Hf3t3ZvjX6vQeHQ918rK+WJyMGJyUH7yxY8uTmcRXRQBMdV4t9PjAjUjO4IOsd4SrB2GgG70vOpkiiiNVKyWJJb2YxoWd9QItdZ8L97SgXNxlpU5P6nHHVO6AwvPeqMea5cTjxWo3QoYnm+kjlQ6HTHO1Tzl7RULlTNtqQCR4PPGbrpoNbey1CaCg21FjOgduzjKjF2KEcgKlKDBEtuoLfS50/G5UZvmn+fn9DK17yvA7EYwRhBKfqSXvAPT0=
