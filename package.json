@@ -40,12 +40,13 @@
     "ember-load-initializers": "^0.5.1",
     "ember-resolver": "^2.0.3",
     "ember-sinon": "0.6.0",
-    "ember-test-utils": "^1.10.3",
+    "ember-test-utils": "^4.0.0",
     "loader.js": "^4.0.1",
     "sinon-chai": "^2.8.0"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "frost"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.6",

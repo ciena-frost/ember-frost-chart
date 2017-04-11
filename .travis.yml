@@ -23,8 +23,6 @@ env:
   matrix:
   - EMBER_TRY_SCENARIO=default
   - EMBER_TRY_SCENARIO=ember-release
-  - EMBER_TRY_SCENARIO=ember-beta
-  - EMBER_TRY_SCENARIO=ember-canary
   - EMBER_TRY_SCENARIO=ember-2-8
   global:
     - CXX=g++-4.8
@@ -33,7 +31,7 @@ env:
 matrix:
   fast_finish: true
   allow_failures:
-  - env: EMBER_TRY_SCENARIO=ember-canary
+  - env: EMBER_TRY_SCENARIO=ember-release
 
 before_install:
 - npm config set spin false
@@ -67,7 +65,7 @@ deploy:
     condition: "$EMBER_TRY_SCENARIO = 'default'"
     node: '6.9.1'
     tags: true
-    
+
 notifications:
   slack:
     secure: iHubTCYToBoBNK500kWxIoOs1vyM3zYBLD+YkNXLyvM5T0AV08Us3oCUfMnLcZJz92qs22o5Dkb9OTJewIC+5RexgROaQCWdlAyVnGOLKcfHL/XH5Q1ln9O/et3ye+bUBjWHOm0FVvz7tllLMYyU8+282IqL09bkHFEz3A/ygK9CaTUFotpOITDkpor5yw+2wAyVjLPh41BwuQcUlW0PzWSrO98gKPZkpkyWJ8eokxOyKLhYXXKO+tnr/qdJGYBVCVsmYGFfPufYXiApbc+Hn859vuRMT1RKu9eVUfaOX2suU+m3Ie7+eJe+x39vJ9sKImgXnlGaFBpfkiVIr+Zuzihuf7F37dRHMCOpiSzGqFjkRJsyAdZsotBujZ1+Kdzz8RY+e1MsXBeACBmn7z83nbb96f+64WPeamgp0Y1KTv7iw5Hf3t3ZvjX6vQeHQ918rK+WJyMGJyUH7yxY8uTmcRXRQBMdV4t9PjAjUjO4IOsd4SrB2GgG70vOpkiiiNVKyWJJb2YxoWd9QItdZ8L97SgXNxlpU5P6nHHVO6AwvPeqMea5cTjxWo3QoYnm+kjlQ6HTHO1Tzl7RULlTNtqQCR4PPGbrpoNbey1CaCg21FjOgduzjKjF2KEcgKlKDBEtuoLfS50/G5UZvmn+fn9DK17yvA7EYwRhBKfqSXvAPT0=
