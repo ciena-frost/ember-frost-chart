@@ -1,0 +1,5 @@
+{{! Template for the frost-chart-svg-plot-bar component }}
+
+{{#each _scaledData as |point|}}
+  {{yield point _transform}}
+{{/each}}

@@ -1,0 +1,52 @@
+{{! Template for the frost-chart component }}
+
+{{yield (hash
+  x-axis=(component 'frost-chart-x-axis'
+    chartHeight=_chartHeight
+    chartPadding=_chartPadding
+    chartWidth=_chartWidth
+    didRenderAxis=(action '_didRenderAxis')
+    gutter=_yAxisGutter
+    initializedChart=_initializedChart
+    register=(action '_registerAxis')
+    align='bottom'
+    domain=xDomain
+    hook=(concat hookPrefix '-xAxis')
+    range=_xRange
+    scale=xScale
+    ticks=10
+  )
+
+  y-axis=(component 'frost-chart-axis'
+    chartHeight=_chartHeight
+    chartPadding=_chartPadding
+    chartWidth=_chartWidth
+    _didRender=(action '_didRenderAxis')
+    _gutter=_xAxisGutter
+    initializedChart=_initializedChart
+    _register=(action '_registerAxis')
+    align='left'
+    domain=yDomain
+    hook=(concat hookPrefix '-yAxis')
+    range=_yRange
+    scale=yScale
+    ticks=10
+  )
+
+  svg=(component 'frost-chart-svg'
+    _canvasHeight=_canvasHeight
+    _canvasWidth=_canvasWidth
+    _initializedAxes=_initializedAxes
+    _xAxisGutter=_xAxisGutter
+    _yAxisGutter=_yAxisGutter
+    hook=(concat hookPrefix '-svg')
+    xDomain=xDomain
+    xRange=_xRange
+    xScale=xScale
+    xTicks=_xTicks
+    yDomain=yDomain
+    yRange=_yRange
+    yScale=yScale
+    yTicks=_yTicks
+  )
+)}}
