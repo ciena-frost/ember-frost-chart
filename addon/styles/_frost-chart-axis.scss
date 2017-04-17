@@ -1,12 +1,12 @@
 .frost-chart-x-axis,
 .frost-chart-y-axis {
   position: absolute;
+  display: flex;
+  align-items: center;
 }
 
 .frost-chart-x-axis {
-  display: flex;
   flex-direction: column;
-  align-items: center;
 
   .frost-chart-x-axis-label {
     margin: 5px 0;
@@ -23,27 +23,20 @@
   }
 }
 
-.frost-chart-axis {
-  position: absolute;
+.frost-chart-y-axis {
+  flex-direction: row;
 
-  &.left,
-  &.right {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  .frost-chart-y-axis-label {
+    transform: rotate(-90deg);
+    margin: 0 5px;
+  }
 
-    .frost-chart-axis-label {
-      transform: rotate(-90deg);
-      margin: 0 5px;
-    }
-
-    .frost-chart-axis-tick {
-      display: block;
-    }
+  .frost-chart-axis-tick {
+    display: block;
   }
 
   &.right {
-    .frost-chart-axis-label {
+    .frost-chart-y-axis-label {
       transform: rotate(90deg);
       order: 1;
     }

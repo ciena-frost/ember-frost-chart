@@ -3,7 +3,7 @@
  */
 
 import Ember from 'ember'
-const {A, Object: EmberObject, get} = Ember
+const {A, Object: EmberObject, get, isEmpty} = Ember
 import {PropTypes} from 'ember-prop-types'
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'

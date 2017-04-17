@@ -2,7 +2,6 @@
 
 {{yield (hash
   x-axis=(component 'frost-chart-x-axis'
-    chartHeight=_chartHeight
     chartPadding=_chartPadding
     chartWidth=_chartWidth
     didRenderAxis=(action '_didRenderAxis')
@@ -14,23 +13,23 @@
     hook=(concat hookPrefix '-xAxis')
     range=_xRange
     scale=xScale
-    ticks=10
+    ticks=(linear-ticks 10)
   )
 
-  y-axis=(component 'frost-chart-axis'
+  y-axis=(component 'frost-chart-y-axis'
     chartHeight=_chartHeight
     chartPadding=_chartPadding
     chartWidth=_chartWidth
     _didRender=(action '_didRenderAxis')
     _gutter=_xAxisGutter
     initializedChart=_initializedChart
-    _register=(action '_registerAxis')
+    register=(action '_registerAxis')
     align='left'
     domain=yDomain
     hook=(concat hookPrefix '-yAxis')
     range=_yRange
     scale=yScale
-    ticks=10
+    ticks=(linear-ticks 10)
   )
 
   svg=(component 'frost-chart-svg'

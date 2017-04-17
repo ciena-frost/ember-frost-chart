@@ -24,14 +24,14 @@
   {{#chart.svg as |plot|}}
     {{plot.grid}}
 
-    {{#plot.bar
+    {{!-- {{#plot.bar
       data=data
       x='x'
       y='y'
       as |point|
     }}
       <rect x={{point.x}} y={{point.y}} width={{point.width}} height={{point.height}} />
-    {{/plot.bar}}
+    {{/plot.bar}} --}}
 
     {{#plot.scatter
       data=data
@@ -42,8 +42,8 @@
       <circle cx={{point.x}} cy={{point.y}} r=40 fill='red' />
     {{/plot.scatter}}
 
-    {{plot.area data=data x='x' y='y'}}
+    {{!-- {{plot.area data=data x='x' y='y'}}
 
-    {{plot.line data=data x='x' y='y'}}
+    {{plot.line data=data x='x' y='y'}} --}}
   {{/chart.svg}}
 {{/frost-chart}}

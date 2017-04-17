@@ -3,12 +3,13 @@
  */
 
 import Ember from 'ember'
-const {A, Object: EmberObject, String: EmberString, get} = Ember
+const {A, Object: EmberObject, String: EmberString, get, isEmpty} = Ember
 import {PropTypes} from 'ember-prop-types'
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
 
 import layout from '../templates/components/frost-chart-axis'
+import {linearTicks} from '../helpers/linear-ticks'
 
 export default Component.extend({
   // == Dependencies ==========================================================
@@ -24,7 +25,7 @@ export default Component.extend({
   propTypes: {
     // options
     label: PropTypes.string,
-    ticks: PropTypes.number
+    ticks: PropTypes.func
 
     // state
   },
@@ -32,7 +33,7 @@ export default Component.extend({
   getDefaultProps () {
     return {
       // options
-      ticks: 10,
+      ticks: linearTicks([10]),
 
       // state
       _isVertical: false,
@@ -49,28 +50,7 @@ export default Component.extend({
       return []
     }
 
-    const ticks = this.get('ticks')
-
-    // We want ticks at the min/max of the domain, the rest of the ticks
-    // should be divided evenly across the domain
-    const _ticks = A()
-    _ticks.addObject(EmberObject.create({
-      value: domain[0]
-    }))
-
-    _ticks.addObjects(Array.from({length: ticks - 1}, (entry, index) => {
-      const percentage = (index + 1) / ticks
-      const tick = (domain[1] - domain[0]) * percentage + domain[0]
-      return EmberObject.create({
-        value: tick
-      })
-    }))
-
-    _ticks.addObject(EmberObject.create({
-      value: domain[1]
-    }))
-
-    return _ticks
+    return this.ticks(domain)
   },
 
   @readOnly
@@ -110,8 +90,8 @@ export default Component.extend({
   init () {
     this._super(...arguments)
     this.register({
-      ticks: this.get('ticks'),
-      vertical: false
+      axis: 'x',
+      ticks: this.get('_ticks'),
     })
   },
 
@@ -120,7 +100,7 @@ export default Component.extend({
   actions: {
     _didRenderTick ({height, width}) {
       const _renderedTicks = this.get('_renderedTicks').addObject({height, width})
-      if (_renderedTicks.length === this.get('ticks') + 1) {
+      if (!isEmpty(this.get('_ticks')) && _renderedTicks.length === this.get('_ticks.length')) {
         const firstTick = _renderedTicks.get('firstObject')
         const lastTick = _renderedTicks.get('lastObject')
         const tickMargin = get(firstTick, 'width') / 2 + get(lastTick, 'width') / 2
@@ -129,6 +109,7 @@ export default Component.extend({
           align: this.get('align'),
           height: this.$().outerHeight(true),
           margin: tickMargin,
+          ticks: this.get('_ticks.length'),
           width: this.$().outerWidth(true) - tickMargin
         })
       } else {

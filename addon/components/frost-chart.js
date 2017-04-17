@@ -3,7 +3,7 @@
  */
 
 import Ember from 'ember'
-const {A, assign, get, isEmpty, run, inject} = Ember
+const {A, Object: EmberObject, assign, get, isEmpty, run, inject} = Ember
 import {task, timeout} from 'ember-concurrency'
 import {PropTypes} from 'ember-prop-types'
 import computed, {readOnly} from 'ember-computed-decorators'
@@ -87,18 +87,6 @@ export default Component.extend({
   },
 
   @readOnly
-  @computed('_registeredAxes')
-  _xTicks (_registeredAxes) {
-    const horizontalAxis = _registeredAxes.findBy('vertical', false)
-
-    if (horizontalAxis) {
-      return get(horizontalAxis, 'ticks')
-    } else {
-      return 0
-    }
-  },
-
-  @readOnly
   @computed('_canvasHeight')
   _yRange (height) {
     const yRange = this.get('yRange')
@@ -106,18 +94,6 @@ export default Component.extend({
       return [height, 0]
     }
     return yRange
-  },
-
-  @readOnly
-  @computed('_registeredAxes')
-  _yTicks (_registeredAxes) {
-    const verticalAxis = _registeredAxes.findBy('vertical', true)
-
-    if (verticalAxis) {
-      return get(verticalAxis, 'ticks')
-    } else {
-      return 0
-    }
   },
 
   // == Functions =============================================================
@@ -180,7 +156,7 @@ export default Component.extend({
   // == Actions ===============================================================
 
   actions: {
-    _didRenderAxis ({align, firstTickMargin, height, margin, width}) {
+    _didRenderAxis ({align, firstTickMargin, height, margin, ticks, width}) {
       const _renderedAxes = this.get('_renderedAxes') + 1
       const _initializedAxes = _renderedAxes === this.get('_registeredAxes.length')
       if (align === 'top' || align === 'bottom') {
@@ -191,7 +167,8 @@ export default Component.extend({
             align,
             margin,
             height
-          }
+          },
+          _xTicks: ticks
         })
       } else {
         this.setProperties({
@@ -202,13 +179,14 @@ export default Component.extend({
             firstTickMargin,
             margin,
             width
-          }
+          },
+          _yTicks: ticks
         })
       }
     },
 
-    _registerAxis (axis) {
-      this.get('_registeredAxes').addObject(axis)
+    _registerAxis ({axis}) {
+      this.get('_registeredAxes').pushObject(axis)
     }
   }
 })
