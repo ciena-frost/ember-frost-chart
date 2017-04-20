@@ -11,7 +11,7 @@ import {Component} from 'ember-frost-core'
 import layout from '../templates/components/frost-chart-svg-plot-scatter'
 
 export default Component.extend({
-  
+
   // == Dependencies ==========================================================
 
   // == Keyword Properties ====================================================
@@ -38,23 +38,27 @@ export default Component.extend({
   // == Computed Properties ===================================================
 
   @readOnly
-  @computed('initializing', 'data.[]', 'x', 'y', 'xDomain', 'xRange', 'xScale', 'yDomain', 'yRange', 'yScale')
-  _scaledData (initializing, data, x, y, xDomain, xRange, xScale, yDomain, yRange, yScale) {
-    if (initializing) {
+  @computed('data.[]', 'chartState.range.x', 'chartState.range.y')
+  _points (data, xRange, yRange) {
+    if (!xRange || !yRange) {
       return []
     }
 
+    const xScale = this.get('chartState.scale.x')
+    const xDomain = this.get('chartState.domain.x')
     const xTransform = xScale({domain: xDomain, range: xRange})
+
+    const yScale = this.get('chartState.scale.y')
+    const yDomain = this.get('chartState.domain.y')
     const yTransform = yScale({domain: yDomain, range: yRange})
 
-    // Transform the data
     return data.map(entry => {
       return {
-        x: xTransform(get(entry, x)),
-        y: yTransform(get(entry, y))
+        x: xTransform(get(entry, this.x)),
+        y: yTransform(get(entry, this.y))
       }
     })
-  },
+  }
 
   // == Functions =============================================================
 
@@ -63,8 +67,5 @@ export default Component.extend({
   // == Lifecycle Hooks =======================================================
 
   // == Actions ===============================================================
-
-  actions: {
-  }
 
 })

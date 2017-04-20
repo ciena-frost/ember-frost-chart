@@ -3,26 +3,23 @@
 {{yield (hash
   x-axis=(component 'frost-chart-x-axis'
     alignment='bottom'
-    hook=(concat hookPrefix '-xAxis')
-    ticks=(linear-ticks 10)
-
     chartState=_chartState
     dispatch=(action '_dispatch')
+    hook=(concat hookPrefix '-xAxis')
+    ticks=(linear-ticks 10)
   )
 
   y-axis=(component 'frost-chart-y-axis'
     alignment='left'
-    hook=(concat hookPrefix '-yAxis')
-    ticks=(linear-ticks 10)
-
     chartState=_chartState
     dispatch=(action '_dispatch')
+    hook=(concat hookPrefix '-yAxis')
+    ticks=(linear-ticks 10)
   )
 
   svg=(component 'frost-chart-svg'
-    hook=(concat hookPrefix '-svg')
-
     chartState=_chartState
     dispatch=(action '_dispatch')
+    hook=(concat hookPrefix '-svg')
   )
 )}}

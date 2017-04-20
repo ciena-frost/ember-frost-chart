@@ -1,3 +1,7 @@
+/**
+ * Helper definition for the d3-linear-scale helper
+ */
+
 import {scaleLinear} from 'd3-scale'
 import Ember from 'ember'
 const {Helper} = Ember

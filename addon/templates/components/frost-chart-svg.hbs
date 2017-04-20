@@ -5,36 +5,30 @@
     (hash
       area=(component 'frost-chart-svg-plot-area'
         chartState=chartState
-
         hook=(concat hookPrefix '-area')
       )
 
       bar=(component 'frost-chart-svg-plot-bar'
         bar=(vertical-bar)
-        hook=(concat hookPrefix '-bar')
-
         chartState=chartState
+        hook=(concat hookPrefix '-bar')
       )
 
       grid=(component 'frost-chart-svg-plot-grid'
-        hook=(concat hookPrefix '-grid')
-
         chartState=chartState
+        hook=(concat hookPrefix '-grid')
       )
 
       line=(component 'frost-chart-svg-plot-line'
+        chartState=chartState
         hook=(concat hookPrefix '-line')
         line=(d3-line)
-
-        chartState=chartState
       )
 
       scatter=(component 'frost-chart-svg-plot-scatter'
-        hook=(concat hookPrefix '-scatter')
-
         chartState=chartState
+        hook=(concat hookPrefix '-scatter')
       )
     )
-    chartState
   }}
 {{/if}}

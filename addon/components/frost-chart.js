@@ -9,7 +9,7 @@ import {PropTypes} from 'ember-prop-types'
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
 
-import {linearScale} from '../helpers/linear-scale'
+import {linearScale} from '../helpers/d3-linear-scale'
 import layout from '../templates/components/frost-chart'
 
 export default Component.extend({
