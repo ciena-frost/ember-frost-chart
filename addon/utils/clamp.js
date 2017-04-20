@@ -8,4 +8,5 @@ export default function clamp (value, {max, min}) {
   } else if (max && value > max) {
     return max
   }
+  return value
 }

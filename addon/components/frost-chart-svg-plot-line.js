@@ -3,7 +3,7 @@
  */
 
 import Ember from 'ember'
-const {get} = Ember
+const {A, get} = Ember
 import {PropTypes} from 'ember-prop-types'
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
@@ -57,12 +57,12 @@ export default Component.extend({
     const yDomain = this.get('chartState.domain.y')
     const yTransform = yScale({domain: yDomain, range: yRange})
 
-    const points = data.map(entry => {
+    const points = A(data.map(entry => {
       return {
         x: xTransform(get(entry, x)),
         y: yTransform(get(entry, y))
       }
-    }).sortBy('x', 'y')
+    })).sortBy('x', 'y')
 
     return this.line(points)
   }

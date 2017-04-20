@@ -38,7 +38,7 @@ export default Controller.extend({
         y: clamp(entry.y - 10, {min: 0})
       }
     })
-  }
+  },
 
   @readOnly
   @computed('data')

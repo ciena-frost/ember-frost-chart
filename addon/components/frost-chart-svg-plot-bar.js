@@ -66,7 +66,7 @@ export default Component.extend({
         x: xTransform(x),
         y: yTransform(y)
       })
-    }).sortBy('x', 'y')
+    })
   }
 
   // == Functions =============================================================

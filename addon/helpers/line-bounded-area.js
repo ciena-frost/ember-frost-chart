@@ -5,7 +5,7 @@
 import {path as d3path} from 'd3-path'
 import curves from 'd3-shape'
 import Ember from 'ember'
-const {Helper, String: EmberString, get} = Ember
+const {A, Helper, String: EmberString, get} = Ember
 
 export function lineBoundedArea ({smooth = 'basis', x = 'x', y = 'y'}) {
   return function ({boundingData, points, xRange, xTransform, yRange, yTransform}) {
@@ -20,12 +20,12 @@ export function lineBoundedArea ({smooth = 'basis', x = 'x', y = 'y'}) {
     })
     curve.lineEnd()
 
-    const boundingPoints = boundingData.map(entry => {
+    const boundingPoints = A(boundingData.map(entry => {
       return {
         x: xTransform(get(entry, x)),
         y: yTransform(get(entry, y))
       }
-    }).reverse()
+    })).sortBy('x', 'y').reverse()
 
     _path.lineTo(boundingPoints[0].x, boundingPoints[0].y)
 

@@ -8,19 +8,20 @@ import {task, timeout} from 'ember-concurrency'
 import {PropTypes} from 'ember-prop-types'
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
+import ResizeAware from 'ember-resize/mixins/resize-aware'
 
 import {linearScale} from '../helpers/d3-linear-scale'
 import layout from '../templates/components/frost-chart'
 
-export default Component.extend({
+export default Component.extend(ResizeAware, {
 
   // == Dependencies ==========================================================
-
-  resizeDetector: inject.service(),
 
   // == Keyword Properties ====================================================
 
   layout,
+  resizeWidthSensitive: true,
+  resizeHeightSensitive: true,
 
   // == PropTypes =============================================================
 
@@ -108,15 +109,21 @@ export default Component.extend({
     return !this.get('xRange') || !this.get('yRange')
   },
 
-  _onResize () {
-    this.get('_resizeTask').perform()
-  },
-
   _resize ({height, width}) {
-    this.set('_chartState.chart.height', height)
-    this.set('_chartState.chart.width', width)
+    const didHeightChange = this.get('_chartState.chart.height') !== height
+    const didWidthChange = this.get('_chartState.chart.width') !== width
 
-    this._setupCanvas()
+    if (didHeightChange) {
+      this.set('_chartState.chart.height', height)
+    }
+
+    if (didWidthChange) {
+      this.set('_chartState.chart.width', width)
+    }
+
+    if (didHeightChange || didWidthChange) {
+      this._setupCanvas()
+    }
   },
 
   _setupCanvas () {
@@ -180,12 +187,6 @@ export default Component.extend({
     this.set('_chartState.scale.y', this.get('yScale'))
   },
 
-  _setupResizeDetector () {
-    if (this._hasDynamicRange()) {
-      this.get('resizeDetector').setup(this.$(), this._onResize.bind(this))
-    }
-  },
-
   _setupXAxis ({alignment, height, ticks, tickHeight, width}) {
     const renderedTicks = this.get('_chartState.axes.x.renderedTicks')
     const firstTickMargin = renderedTicks.get('firstObject.width') / 2
@@ -233,12 +234,6 @@ export default Component.extend({
     }
   },
 
-  _teardownResizeDetector () {
-    if (this._hasDynamicRange()) {
-      this.get('resizeDetector').teardown(this.$(), this._onResize.bind(this))
-    }
-  },
-
   // == Tasks =================================================================
 
   _resizeTask: task(function * () {
@@ -257,17 +252,17 @@ export default Component.extend({
   didInsertElement () {
     this._super(...arguments)
     run.scheduleOnce('sync', this, this._setupChart)
-    run.scheduleOnce('afterRender', this, this._setupResizeDetector)
+  },
+
+  didResize(width, height) {
+    if (this._hasDynamicRange()) {
+      this.get('_resizeTask').perform()
+    }
   },
 
   init () {
     this._super(...arguments)
     run.scheduleOnce('sync', this, this._setupProperties)
-  },
-
-  willDestroyElement () {
-    run.scheduleOnce('destroy', this, this._teardownResizeDetector)
-    this._super(...arguments)
   },
 
   // == Actions ===============================================================

@@ -1,36 +1,126 @@
-{{#frost-chart
-  class='demo-full'
-  hook='demo-power'
-  xDomain=xDomain
-  yDomain=yDomain
-  yScale=(d3-linear-scale)
-  as |chart|
-}}
-  {{#chart.x-axis label='Foo' as |tick|}}
-    {{to-fixed tick 0}}
-  {{/chart.x-axis}}
+<div class='demo-row'>
+  {{#frost-chart
+    class='demo-flex'
+    hook='demo-power'
+    xDomain=xDomain
+    yDomain=yDomain
+    yScale=(d3-linear-scale)
+    as |chart|
+  }}
+    {{#chart.x-axis label='Bar' as |tick|}}
+      {{to-fixed tick 0}}
+    {{/chart.x-axis}}
 
-  {{#chart.y-axis label='Bar' as |tick|}}
-    {{to-fixed tick 0}}
-  {{/chart.y-axis}}
+    {{#chart.y-axis as |tick|}}
+      {{to-fixed tick 0}}
+    {{/chart.y-axis}}
 
-  {{#chart.svg as |plot|}}
-    {{plot.grid}}
+    {{#chart.svg as |plot|}}
+      {{plot.grid}}
 
-    {{!-- {{#plot.bar data=data x='x' y='y' as |bar|}}
-      <rect x={{bar.x}} y={{bar.y}} width={{bar.width}} height={{bar.height}} />
-    {{/plot.bar}} --}}
+      {{#plot.bar data=data x='x' y='y' as |bar|}}
+        <rect x={{bar.x}} y={{bar.y}} width={{bar.width}} height={{bar.height}} />
+      {{/plot.bar}}
+    {{/chart.svg}}
+  {{/frost-chart}}
 
-    {{!plot.line data=data x='x' y='y'}}
+  {{#frost-chart
+    class='demo-flex'
+    hook='demo-power'
+    xDomain=xDomain
+    yDomain=yDomain
+    yScale=(d3-linear-scale)
+    as |chart|
+  }}
+    {{#chart.x-axis label='Line' as |tick|}}
+      {{to-fixed tick 0}}
+    {{/chart.x-axis}}
 
-    {{!-- {{#plot.scatter data=data x='x' y='y' as |point|}}
-      <circle cx={{point.x}} cy={{point.y}} r=4 fill='red' />
-    {{/plot.scatter}} --}}
+    {{#chart.y-axis as |tick|}}
+      {{to-fixed tick 0}}
+    {{/chart.y-axis}}
 
-    {{!-- {{plot.area data=data x='x' y='y'}} --}}
+    {{#chart.svg as |plot|}}
+      {{plot.grid}}
 
-    {{!-- {{plot.area boundingData=data data=data x='x' y='y'
-      area=(line-bounded-area)
-    }} --}}
-  {{/chart.svg}}
-{{/frost-chart}}
+      {{plot.line data=data x='x' y='y'}}
+    {{/chart.svg}}
+  {{/frost-chart}}
+</div>
+
+<div class='demo-row'>
+  {{#frost-chart
+    class='demo-flex'
+    hook='demo-power'
+    xDomain=xDomain
+    yDomain=yDomain
+    yScale=(d3-linear-scale)
+    as |chart|
+  }}
+    {{#chart.x-axis label='Scatter' as |tick|}}
+      {{to-fixed tick 0}}
+    {{/chart.x-axis}}
+
+    {{#chart.y-axis as |tick|}}
+      {{to-fixed tick 0}}
+    {{/chart.y-axis}}
+
+    {{#chart.svg as |plot|}}
+      {{plot.grid}}
+
+      {{#plot.scatter data=data x='x' y='y' as |point|}}
+        <circle cx={{point.x}} cy={{point.y}} r=4 fill='red' />
+      {{/plot.scatter}}
+    {{/chart.svg}}
+  {{/frost-chart}}
+
+  {{#frost-chart
+    class='demo-flex'
+    hook='demo-power'
+    xDomain=xDomain
+    yDomain=yDomain
+    yScale=(d3-linear-scale)
+    as |chart|
+  }}
+    {{#chart.x-axis label='Area' as |tick|}}
+      {{to-fixed tick 0}}
+    {{/chart.x-axis}}
+
+    {{#chart.y-axis as |tick|}}
+      {{to-fixed tick 0}}
+    {{/chart.y-axis}}
+
+    {{#chart.svg as |plot|}}
+      {{plot.grid}}
+
+      {{plot.area data=data x='x' y='y'}}
+    {{/chart.svg}}
+  {{/frost-chart}}
+</div>
+
+<div class='demo-row'>
+  {{#frost-chart
+    class='demo-flex'
+    hook='demo-power'
+    xDomain=xDomain
+    yDomain=yDomain
+    yScale=(d3-linear-scale)
+    as |chart|
+  }}
+    {{#chart.x-axis label='Bounded area' as |tick|}}
+      {{to-fixed tick 0}}
+    {{/chart.x-axis}}
+
+    {{#chart.y-axis as |tick|}}
+      {{to-fixed tick 0}}
+    {{/chart.y-axis}}
+
+    {{#chart.svg as |plot|}}
+      {{plot.grid}}
+
+      {{plot.area boundingData=boundingData data=data x='x' y='y'
+        area=(line-bounded-area)
+      }}
+    {{/chart.svg}}
+  {{/frost-chart}}
+</div>
