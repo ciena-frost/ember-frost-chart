@@ -4,6 +4,7 @@
   {{yield
     (hash
       area=(component 'frost-chart-svg-plot-area'
+        area=(range-bounded-area)
         chartState=chartState
         hook=(concat hookPrefix '-area')
       )

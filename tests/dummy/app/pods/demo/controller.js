@@ -1,7 +1,7 @@
 import Ember from 'ember'
 const {A, Controller} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
-import {extent} from 'ember-frost-chart'
+import {clamp, extent} from 'ember-frost-chart'
 
 const POINTS = 100
 const POINT_LOW = 0
@@ -26,8 +26,19 @@ export default Controller.extend({
       {x: 100, y: 0},
       {x: 100, y: 100}
     ])
-    return data.sortBy('x', 'y')
+    return data
   },
+
+  @readOnly
+  @computed('data.[]')
+  boundingData (data) {
+    return data.map((entry) => {
+      return {
+        x: entry.x,
+        y: clamp(entry.y - 10, {min: 0})
+      }
+    })
+  }
 
   @readOnly
   @computed('data')

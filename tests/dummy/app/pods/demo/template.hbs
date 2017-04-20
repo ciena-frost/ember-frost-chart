@@ -6,17 +6,11 @@
   yScale=(d3-linear-scale)
   as |chart|
 }}
-  {{#chart.x-axis
-    label='Foo'
-    as |tick|
-  }}
+  {{#chart.x-axis label='Foo' as |tick|}}
     {{to-fixed tick 0}}
   {{/chart.x-axis}}
 
-  {{#chart.y-axis
-    label='Bar'
-    as |tick|
-  }}
+  {{#chart.y-axis label='Bar' as |tick|}}
     {{to-fixed tick 0}}
   {{/chart.y-axis}}
 
@@ -29,11 +23,14 @@
 
     {{!plot.line data=data x='x' y='y'}}
 
-    {{#plot.scatter data=data x='x' y='y' as |point|}}
+    {{!-- {{#plot.scatter data=data x='x' y='y' as |point|}}
       <circle cx={{point.x}} cy={{point.y}} r=4 fill='red' />
-    {{/plot.scatter}}
+    {{/plot.scatter}} --}}
+
+    {{!-- {{plot.area data=data x='x' y='y'}} --}}
+
+    {{!-- {{plot.area boundingData=data data=data x='x' y='y'
+      area=(line-bounded-area)
+    }} --}}
   {{/chart.svg}}
 {{/frost-chart}}
-
-
-    {{!-- {{plot.area data=data x='x' y='y'}}

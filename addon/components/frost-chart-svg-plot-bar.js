@@ -23,7 +23,11 @@ export default Component.extend({
 
   propTypes: {
     // options
-    bar: PropTypes.func.isRequired
+    bar: PropTypes.func.isRequired,
+    chartState: PropTypes.EmberObject.isRequired,
+    data: PropTypes.array.isRequired,
+    x: PropTypes.string.isRequired,
+    y: PropTypes.string.isRequired
 
     // state
   },
@@ -62,7 +66,7 @@ export default Component.extend({
         x: xTransform(x),
         y: yTransform(y)
       })
-    })
+    }).sortBy('x', 'y')
   }
 
   // == Functions =============================================================

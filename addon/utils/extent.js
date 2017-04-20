@@ -1,3 +1,7 @@
+/**
+ * Helper definition for the extent util
+ */
+
 import Ember from 'ember'
 const {isEmpty} = Ember
 

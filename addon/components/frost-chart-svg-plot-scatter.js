@@ -23,6 +23,10 @@ export default Component.extend({
 
   propTypes: {
     // options
+    chartState: PropTypes.EmberObject.isRequired,
+    data: PropTypes.array.isRequired,
+    x: PropTypes.string.isRequired,
+    y: PropTypes.string.isRequired
 
     // state
   },
@@ -57,7 +61,7 @@ export default Component.extend({
         x: xTransform(get(entry, this.x)),
         y: yTransform(get(entry, this.y))
       }
-    })
+    }).sortBy('x', 'y')
   }
 
   // == Functions =============================================================

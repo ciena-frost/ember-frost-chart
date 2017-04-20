@@ -2,8 +2,6 @@
  * Component definition for the frost-chart-svg-plot-scatter component
  */
 
-import {path} from 'd3-path'
-import curves from 'd3-shape'
 import Ember from 'ember'
 const {A, String: EmberString, get, isEmpty} = Ember
 import {PropTypes} from 'ember-prop-types'
@@ -25,7 +23,11 @@ export default Component.extend({
 
   propTypes: {
     // options
-    smooth: PropTypes.string
+    area: PropTypes.func.isRequired,
+    chartState: PropTypes.EmberObject.isRequired,
+    data: PropTypes.array.isRequired,
+    x: PropTypes.string.isRequired,
+    y: PropTypes.string.isRequired
 
     // state
   },
@@ -33,7 +35,6 @@ export default Component.extend({
   getDefaultProps () {
     return {
       // options
-      smooth: 'basis',
 
       // state
     }
@@ -42,60 +43,28 @@ export default Component.extend({
   // == Computed Properties ===================================================
 
   @readOnly
-  @computed('boundingData.[]', 'data.[]', 'initializing', 'x', 'xDomain', 'xRange', 'xScale', 'y', 'yDomain', 'yRange', 'yScale')
-  _path (boundingData, data, initializing, x, xDomain, xRange, xScale, y, yDomain, yRange, yScale) {
-    if (initializing) {
+  @computed('boundingData.[]', 'data.[]', 'chartState.range.x', 'chartState.range.y')
+  _path (boundingData, data, xRange, yRange) {
+    if (!xRange || !yRange) {
       return []
     }
 
+    const xScale = this.get('chartState.scale.x')
+    const xDomain = this.get('chartState.domain.x')
     const xTransform = xScale({domain: xDomain, range: xRange})
+
+    const yScale = this.get('chartState.scale.y')
+    const yDomain = this.get('chartState.domain.y')
     const yTransform = yScale({domain: yDomain, range: yRange})
 
-    // Transform the data
     const points = A(data.map(entry => {
       return {
-        x: xTransform(get(entry, x)),
-        y: yTransform(get(entry, y))
+        x: xTransform(get(entry, this.x)),
+        y: yTransform(get(entry, this.y))
       }
-    }))
+    })).sortBy('x', 'y')
 
-    // Create the path
-    const _path = path()
-
-    // Set the points of the curve
-    const curve = curves[EmberString.camelize(`curve-${this.get('smooth')}`)](_path)
-    curve.lineStart()
-    points.forEach(point => {
-      curve.point(point.x, point.y)
-    })
-    curve.lineEnd()
-
-    // If there is bounding data, use it to form the remaining points
-    // otherwise use the graph ranges
-    if (isEmpty(boundingData)) {
-      _path.lineTo(xRange[1], yRange[0])
-      _path.lineTo(xRange[0], yRange[0])
-      _path.lineTo(points[0].x, points[0].y)
-    } else {
-      const boundingPoints = boundingData.map(entry => {
-        return {
-          x: xTransform(get(entry, x)),
-          y: yTransform(get(entry, y))
-        }
-      }).reverse()
-
-      _path.lineTo(boundingPoints[0].x, boundingPoints[0].y)
-
-      curve.lineStart()
-      boundingPoints.forEach(point => {
-        basis.point(point.x, point.y)
-      })
-      basis.lineEnd()
-
-      _path.lineTo(points[0].x, points[0].y)
-    }
-
-    return _path.toString()
+    return this.area({boundingData, points, xRange, xTransform, yRange, yTransform})
   },
 
   // == Functions =============================================================
@@ -105,8 +74,5 @@ export default Component.extend({
   // == Lifecycle Hooks =======================================================
 
   // == Actions ===============================================================
-
-  actions: {
-  }
 
 })
