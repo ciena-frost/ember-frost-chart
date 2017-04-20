@@ -39,14 +39,18 @@ export default Component.extend({
   // == Computed Properties ===================================================
 
   @readOnly
-  @computed('initializing', 'data.[]', 'x', 'y', 'xDomain', 'xRange', 'xScale', 'yDomain', 'yRange', 'yScale')
-  _path (initializing, data, x, y, xDomain, xRange, xScale, yDomain, yRange, yScale) {
-    if (initializing) {
+  @computed('data.[]', 'x', 'y', 'chartState.range.x', 'chartState.range.y')
+  _path (data, x, y, xRange, yRange) {
+    if (!xRange || !yRange) {
       return []
     }
 
-    // Transform the data
+    const xScale = this.get('chartState.scale.x')
+    const xDomain = this.get('chartState.domain.x')
     const xTransform = xScale({domain: xDomain, range: xRange})
+
+    const yScale = this.get('chartState.scale.y')
+    const yDomain = this.get('chartState.domain.y')
     const yTransform = yScale({domain: yDomain, range: yRange})
 
     const points = data.map(entry => {
@@ -56,7 +60,6 @@ export default Component.extend({
       }
     })
 
-    // Plot the line
     return this.line(points)
   }
 

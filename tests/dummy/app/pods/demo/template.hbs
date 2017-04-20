@@ -3,34 +3,6 @@
   hook='demo-power'
   xDomain=xDomain
   yDomain=yDomain
-  as |chart|
-}}
-  {{#chart.x-axis
-    label='Foo'
-    as |tick|
-  }}
-    {{to-fixed tick 0}}
-  {{/chart.x-axis}}
-
-  {{#chart.y-axis
-    label='Bar'
-    as |tick|
-  }}
-    {{to-fixed tick 0}}
-  {{/chart.y-axis}}
-
-  {{#chart.svg as |plot|}}
-    {{plot.grid}}
-  {{/chart.svg}}
-{{/frost-chart}}
-
-
-{{!-- {{#frost-chart
-  class='demo-full'
-  hook='demo-power'
-  xDomain=xDomain
-  xScale=(linear-scale)
-  yDomain=yDomain
   yScale=(linear-scale)
   as |chart|
 }}
@@ -49,7 +21,12 @@
   {{/chart.y-axis}}
 
   {{#chart.svg as |plot|}}
-    {{plot.grid}} --}}
+    {{plot.grid}}
+
+    {{plot.line data=data x='x' y='y'}}
+  {{/chart.svg}}
+{{/frost-chart}}
+
 
     {{!-- {{#plot.bar
       data=data
