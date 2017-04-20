@@ -1,62 +1,39 @@
 {{! Template for the frost-chart-svg component }}
 
-{{#if _initializedAxes}}
+{{#if chartState.axes.initialized}}
   {{yield
     (hash
       area=(component 'frost-chart-svg-plot-area'
+        chartState=chartState
+
         hook=(concat hookPrefix '-area')
-        xDomain=xDomain
-        xRange=xRange
-        xScale=xScale
-        yDomain=yDomain
-        yRange=yRange
-        yScale=yScale
       )
+
       bar=(component 'frost-chart-svg-plot-bar'
         hook=(concat hookPrefix '-bar')
-        xDomain=xDomain
-        xRange=xRange
-        xScale=xScale
-        yDomain=yDomain
-        yRange=yRange
-        yScale=yScale
+
+        chartState=chartState
       )
+
       grid=(component 'frost-chart-svg-plot-grid'
         hook=(concat hookPrefix '-grid')
-        xRange=xRange
-        xTicks=xTicks
-        yRange=yRange
-        yTicks=yTicks
+
+        chartState=chartState
       )
+
       line=(component 'frost-chart-svg-plot-line'
         hook=(concat hookPrefix '-line')
         line=(d3-line)
-        xDomain=xDomain
-        xRange=xRange
-        xScale=xScale
-        yDomain=yDomain
-        yRange=yRange
-        yScale=yScale
+
+        chartState=chartState
       )
+
       scatter=(component 'frost-chart-svg-plot-scatter'
         hook=(concat hookPrefix '-scatter')
-        xDomain=xDomain
-        xRange=xRange
-        xScale=xScale
-        yDomain=yDomain
-        yRange=yRange
-        yScale=yScale
+
+        chartState=chartState
       )
     )
-    (hash
-      domain=(hash
-        x=xDomain
-        y=yDomain
-      )
-      range=(hash
-        x=xRange
-        y=yRange
-      )
-    )
+    chartState
   }}
 {{/if}}

@@ -11,6 +11,7 @@ export function linearTicks ([ticks]) {
   return function (domain) {
     const _ticks = A()
     _ticks.addObject(EmberObject.create({
+      index: 0,
       value: domain[0]
     }))
 
@@ -18,11 +19,13 @@ export function linearTicks ([ticks]) {
       const percentage = (index + 1) / ticks
       const tick = (domain[1] - domain[0]) * percentage + domain[0]
       return EmberObject.create({
+        index,
         value: tick
       })
     }))
 
     _ticks.addObject(EmberObject.create({
+      index: ticks,
       value: domain[1]
     }))
 

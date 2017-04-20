@@ -3,29 +3,34 @@
  */
 
 import Ember from 'ember'
-const {A, Object: EmberObject, String: EmberString, get, isEmpty} = Ember
+const {A, Object: EmberObject, String: EmberString, assign, get, isEmpty, run} = Ember
 import {PropTypes} from 'ember-prop-types'
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
 
-import layout from '../templates/components/frost-chart-axis'
+import layout from '../templates/components/frost-chart-x-axis'
 import {linearTicks} from '../helpers/linear-ticks'
 
 export default Component.extend({
+
   // == Dependencies ==========================================================
 
   // == Keyword Properties ====================================================
 
   attributeBindings: ['style'],
-  classNameBindings: ['align'],
+  classNameBindings: ['alignment'],
   layout,
 
   // == PropTypes =============================================================
 
   propTypes: {
     // options
+    alignment: PropTypes.oneOf(['top', 'bottom']),
     label: PropTypes.string,
-    ticks: PropTypes.func
+    ticks: PropTypes.func,
+
+    chartState: PropTypes.EmberObject.isRequired,
+    dispatch: PropTypes.func.isRequired
 
     // state
   },
@@ -33,18 +38,19 @@ export default Component.extend({
   getDefaultProps () {
     return {
       // options
+      aligment: 'bottom',
+      label: null,
       ticks: linearTicks([10]),
 
       // state
-      _isVertical: false,
-      _renderedTicks: A()
+      _axis: 'x'
     }
   },
 
   // == Computed Properties ===================================================
 
   @readOnly
-  @computed('initializedChart', 'domain')
+  @computed('chartState.chart.initialized', 'chartState.domain.x')
   _ticks (initializedChart, domain) {
     if (!initializedChart) {
       return []
@@ -54,67 +60,75 @@ export default Component.extend({
   },
 
   @readOnly
-  @computed('chartPadding', 'chartWidth', 'gutter')
-  style (chartPadding, chartWidth, gutter) {
-    const _gutter = gutter ? gutter.width : 0
-    const _gutterAlign = gutter ? gutter.align : 'left'
-    const padding = chartPadding ? get(chartPadding, this.get('align')) : 0
+  @computed('_ticks', 'chartState.range.x')
+  _positionedTicks (ticks, range) {
+    if (!range) {
+      return ticks
+    }
+
+    const scale = this.get('chartState.scale.x')
+    const domain = this.get('chartState.domain.x')
+    const transform = scale({domain, range})
+
+    return ticks.map(tick => {
+      return assign({}, tick, {
+        coordinate: transform(get(tick, 'value'))
+      })
+    })
+  },
+
+  @readOnly
+  @computed('chartState.axes.initialized', 'chartState.chart.width')
+  style (initializedAxes, chartWidth) {
+    if (!initializedAxes || !chartWidth) {
+      return ''
+    }
+
+    const chartPadding = this.get('chartState.chart.padding')
+    const yAxisAlignment = this.get('chartState.axes.y.alignment')
+    const yAxisWidth = this.get('chartState.axes.y.width') || 0
+    const xAxisAlignment = this.get('chartState.axes.x.alignment')
+    const xAxisFirstTickMargin = this.get('chartState.axes.x.firstTickMargin')
+    const xAxisLastTickMargin = this.get('chartState.axes.x.lastTickMargin')
+
     return EmberString.htmlSafe(`
-      ${this.get('align')}: ${padding}px;
-      width: calc(${chartWidth}px - ${_gutter}px - ${this.get('_renderedTicks.lastObject.width')}px / 2);
-      margin-${_gutterAlign}: ${_gutter}px;
-      margin-right: calc(${this.get('_renderedTicks.lastObject.width')}px / 2);
+      ${xAxisAlignment}: ${get(chartPadding, xAxisAlignment)}px;
+      width: calc(${chartWidth}px - ${yAxisWidth}px - ${xAxisFirstTickMargin}px - ${xAxisLastTickMargin}px);
+      margin-left: calc(${yAxisAlignment === 'left' ? yAxisWidth : 0}px);
+      margin-right: calc(${yAxisAlignment === 'right' ? yAxisWidth : 0}px;
     `)
   },
 
   // == Functions =============================================================
 
+  _dispatchRenderedAxis () {
+    this.dispatch({
+      type: 'RENDERED_X_AXIS',
+      axis: {
+        alignment: this.get('alignment'),
+        height: this.$().outerHeight(true),
+        ticks: this.get('_ticks'),
+        tickHeight: this.$(`.${this.get('css')}-ticks`).height()
+      }
+    })
+  },
+
   // == DOM Events ============================================================
 
   // == Lifecycle Hooks =======================================================
 
-  didReceiveAttrs ({newAttrs}) {
-    const range = get(newAttrs, 'range.value')
-    if (range) {
-      const domain = this.get('domain')
-      const scale = this.get('scale')
-      const transform = scale({domain, range})
-
-      const _ticks = this.get('_ticks')
-      _ticks.forEach((_tick) => {
-        _tick.set('coordinate', transform(get(_tick, 'value')))
-      })
-    }
-  },
-
   init () {
     this._super(...arguments)
-    this.register({
-      axis: 'x',
-      ticks: this.get('_ticks'),
+    this.attrs.dispatch({
+      type: 'REGISTER_AXIS'
     })
   },
 
+  didInsertElement () {
+    this._super(...arguments)
+    run.scheduleOnce('afterRender', this, this._dispatchRenderedAxis)
+  }
+
   // == Actions ===============================================================
 
-  actions: {
-    _didRenderTick ({height, width}) {
-      const _renderedTicks = this.get('_renderedTicks').addObject({height, width})
-      if (!isEmpty(this.get('_ticks')) && _renderedTicks.length === this.get('_ticks.length')) {
-        const firstTick = _renderedTicks.get('firstObject')
-        const lastTick = _renderedTicks.get('lastObject')
-        const tickMargin = get(firstTick, 'width') / 2 + get(lastTick, 'width') / 2
-        this.set('_tickHeight', this.$('.frost-chart-x-axis-ticks').height())
-        this.didRenderAxis({
-          align: this.get('align'),
-          height: this.$().outerHeight(true),
-          margin: tickMargin,
-          ticks: this.get('_ticks.length'),
-          width: this.$().outerWidth(true) - tickMargin
-        })
-      } else {
-        this.set('_renderedTicks', _renderedTicks)
-      }
-    }
-  }
 })
