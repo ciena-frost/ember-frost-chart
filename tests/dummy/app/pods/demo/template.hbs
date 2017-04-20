@@ -23,19 +23,13 @@
   {{#chart.svg as |plot|}}
     {{plot.grid}}
 
-    {{plot.line data=data x='x' y='y'}}
+    {{#plot.bar data=data x='x' y='y' as |bar|}}
+      <rect x={{bar.x}} y={{bar.y}} width={{bar.width}} height={{bar.height}} />
+    {{/plot.bar}}
+
+    {{!plot.line data=data x='x' y='y'}}
   {{/chart.svg}}
 {{/frost-chart}}
-
-
-    {{!-- {{#plot.bar
-      data=data
-      x='x'
-      y='y'
-      as |point|
-    }}
-      <rect x={{point.x}} y={{point.y}} width={{point.width}} height={{point.height}} />
-    {{/plot.bar}} --}}
 
     {{!-- {{#plot.scatter
       data=data
@@ -48,6 +42,5 @@
 
     {{!-- {{plot.area data=data x='x' y='y'}}
 
-    {{plot.line data=data x='x' y='y'}} --}}
   {{!-- {{/chart.svg}}
 {{/frost-chart}} --}}

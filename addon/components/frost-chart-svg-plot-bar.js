@@ -1,9 +1,9 @@
 /**
- * Component definition for the frost-chart-svg-plot-scatter component
+ * Component definition for the frost-chart-svg-plot-bar component
  */
 
 import Ember from 'ember'
-const {get} = Ember
+const {assign, get} = Ember
 import {PropTypes} from 'ember-prop-types'
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
@@ -23,6 +23,7 @@ export default Component.extend({
 
   propTypes: {
     // options
+    bar: PropTypes.func.isRequired
 
     // state
   },
@@ -38,41 +39,31 @@ export default Component.extend({
   // == Computed Properties ===================================================
 
   @readOnly
-  @computed('initializing', 'xDomain', 'xRange', 'xScale', 'yDomain', 'yRange', 'yScale')
-  _transform (initializing, xDomain, xRange, xScale, yDomain, yRange, yScale) {
-    if (initializing) {
-      return null
-    }
-
-    return {
-      x: xScale({domain: xDomain, range: xRange}),
-      y: yScale({domain: yDomain, range: yRange})
-    }
-  },
-
-  @readOnly
-  @computed('initializing', 'data.[]', 'xRange', 'yRange')
-  _scaledData (initializing, data, xRange, yRange) {
-    if (initializing) {
+  @computed('data.[]', 'chartState.range.x', 'chartState.range.y')
+  _bars (data, xRange, yRange) {
+    if (!xRange || !yRange) {
       return []
     }
 
-    const x = this.get('x')
-    const y = this.get('y')
-    const _transform = this.get('_transform')
+    const xScale = this.get('chartState.scale.x')
+    const xDomain = this.get('chartState.domain.x')
+    const xTransform = xScale({domain: xDomain, range: xRange})
 
-    // Transform the data
+    const yScale = this.get('chartState.scale.y')
+    const yDomain = this.get('chartState.domain.y')
+    const yTransform = yScale({domain: yDomain, range: yRange})
+
     return data.map(entry => {
-      const height = _transform.y(get(entry, y))
-      return {
+      const x = get(entry, this.x)
+      const y = get(entry, this.y)
+
+      return assign({}, this.bar({data, x, xRange, xTransform, y, yRange, yTransform}), {
         data: entry,
-        height: yRange[0] - height,
-        width: (xRange[1] - xRange[0]) / data.length,
-        x: _transform.x(get(entry, x)),
-        y: height
-      }
+        x: xTransform(x),
+        y: yTransform(y)
+      })
     })
-  },
+  }
 
   // == Functions =============================================================
 
@@ -81,8 +72,5 @@ export default Component.extend({
   // == Lifecycle Hooks =======================================================
 
   // == Actions ===============================================================
-
-  actions: {
-  }
 
 })
