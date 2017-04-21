@@ -8,20 +8,17 @@ import {task, timeout} from 'ember-concurrency'
 import {PropTypes} from 'ember-prop-types'
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
-import ResizeAware from 'ember-resize/mixins/resize-aware'
 
 import {linearScale} from '../helpers/d3-linear-scale'
 import layout from '../templates/components/frost-chart'
 
-export default Component.extend(ResizeAware, {
+export default Component.extend({
 
   // == Dependencies ==========================================================
 
   // == Keyword Properties ====================================================
 
   layout,
-  resizeWidthSensitive: true,
-  resizeHeightSensitive: true,
 
   // == PropTypes =============================================================
 
@@ -109,7 +106,14 @@ export default Component.extend(ResizeAware, {
     return !this.get('xRange') || !this.get('yRange')
   },
 
-  _resize ({height, width}) {
+  _onResize () {
+    this.get('_resizeTask').perform()
+  },
+
+  _resize () {
+    const height = this.$().height()
+    const width = this.$().width()
+
     const didHeightChange = this.get('_chartState.chart.height') !== height
     const didWidthChange = this.get('_chartState.chart.width') !== width
 
@@ -236,13 +240,8 @@ export default Component.extend(ResizeAware, {
 
   // == Tasks =================================================================
 
-  _resizeTask: task(function * ({height, width}) {
-    yield timeout(1000 / 60) // 60FPS
-
-    Ember.run.scheduleOnce('sync', this, this._resize.bind(this, {
-      height,
-      width
-    }))
+  _resizeTask: task(function * () {
+    this._resize()
   }).keepLatest(),
 
   // == DOM Events ============================================================
@@ -252,17 +251,21 @@ export default Component.extend(ResizeAware, {
   didInsertElement () {
     this._super(...arguments)
     run.scheduleOnce('sync', this, this._setupChart)
-  },
-
-  didResize(width, height) {
     if (this._hasDynamicRange()) {
-      this.get('_resizeTask').perform({height, width})
+      window.addEventListener('resize', this._onResize.bind(this));
     }
   },
 
   init () {
     this._super(...arguments)
     run.scheduleOnce('sync', this, this._setupProperties)
+  },
+
+  willDestroyElement() {
+    if (this._hasDynamicRange()) {
+      window.removeEventListener('resize', this._onResize.bind(this))
+    }
+    this._super(...arguments);
   },
 
   // == Actions ===============================================================

@@ -53,10 +53,14 @@ export default Component.extend({
   },
 
   @readOnly
-  @computed('chartState.canvas.height', 'chartState.canvas.width')
-  style (canvasHeight, canvasWidth) {
+  @computed('chartState.axes.initialized')
+  style (initializedAxes) {
+    if (!initializedAxes) {
+      return EmberString.htmlSafe('')
+    }
+
     const xAxisAlignment = this.get('chartState.axes.x.alignment')
-    const xAxisHeight = this.get('chartState.axes.x.height')
+    const xAxisHeight = this.get('chartState.axes.x.height') || 0
     const yAxisFirstTickMargin = this.get('chartState.axes.y.firstTickMargin') || 0
     const canvasTopMargin = xAxisAlignment === 'top' ? xAxisHeight + yAxisFirstTickMargin : yAxisFirstTickMargin
 
@@ -64,8 +68,9 @@ export default Component.extend({
     const canvasHorizontalMargin = this.get('chartState.axes.y.width') || 0
 
     return EmberString.htmlSafe(`
-      margin-top: ${canvasTopMargin}px;
-      margin-${yAxisAlignment}: ${canvasHorizontalMargin}px;
+      position: absolute;
+      top: ${canvasTopMargin}px;
+      ${yAxisAlignment}: ${canvasHorizontalMargin}px;
     `)
   },
 
