@@ -1,5 +1,5 @@
 {{! Template for the frost-chart-svg-plot-scatter component }}
 
-{{#each _points as |point|}}
+{{#each _points key='index' as |point|}}
   {{yield point}}
 {{/each}}

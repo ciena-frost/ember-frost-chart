@@ -81,7 +81,7 @@
    @computed('chartState.axes.initialized', 'chartState.chart.height')
    style (initializedAxes, chartHeight) {
      if (!initializedAxes || !chartHeight) {
-       return ''
+       return EmberString.htmlSafe('')
      }
 
      const chartPadding = this.get('chartState.chart.padding')

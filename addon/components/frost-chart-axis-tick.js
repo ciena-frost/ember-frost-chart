@@ -41,7 +41,7 @@ export default Component.extend({
   @computed('coordinate')
   style (coordinate) {
     if (isNone(coordinate)) {
-      return ''
+      return EmberString.htmlSafe('')
     }
 
     // calc is added to align the middle of the tick with the location

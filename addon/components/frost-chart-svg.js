@@ -17,10 +17,10 @@ export default Component.extend({
   // == Keyword Properties ====================================================
 
   attributeBindings: [
-    'chartState.canvas.height:height',
+    'height',
     'style',
     'viewbox',
-    'chartState.canvas.width:width'
+    'width'
   ],
   layout,
   tagName: 'svg',
@@ -45,6 +45,13 @@ export default Component.extend({
 
   // == Computed Properties ===================================================
 
+
+  @readOnly
+  @computed('chartState.canvas.height')
+  height (height) {
+    return EmberString.htmlSafe(height)
+  },
+
   @readOnly
   @computed('chartState.canvas.height', 'chartState.canvas.width')
   style (canvasHeight, canvasWidth) {
@@ -65,8 +72,14 @@ export default Component.extend({
   @readOnly
   @computed('chartState.canvas.height', 'chartState.canvas.width')
   viewBox (canvasHeight, canvasWidth) {
-    return `0 0 ${canvasHeight} ${canvasWidth}`
+    return EmberString.htmlSafe(`0 0 ${canvasHeight} ${canvasWidth}`)
   },
+
+  @readOnly
+  @computed('chartState.canvas.width')
+  width (width) {
+    return EmberString.htmlSafe(width)
+  }
 
   // == Functions =============================================================
 

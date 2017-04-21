@@ -81,7 +81,7 @@ export default Component.extend({
   @computed('chartState.axes.initialized', 'chartState.chart.width')
   style (initializedAxes, chartWidth) {
     if (!initializedAxes || !chartWidth) {
-      return ''
+      return EmberString.htmlSafe('')
     }
 
     const chartPadding = this.get('chartState.chart.padding')
@@ -97,6 +97,12 @@ export default Component.extend({
       margin-left: calc(${yAxisAlignment === 'left' ? yAxisWidth : 0}px);
       margin-right: calc(${yAxisAlignment === 'right' ? yAxisWidth : 0}px);
     `)
+  },
+
+  @readOnly
+  @computed('chartState.axes.x.tickHeight')
+  _tickHeight (tickHeight) {
+    return EmberString.htmlSafe(`height: ${tickHeight}px;`)
   },
 
   // == Functions =============================================================

@@ -56,8 +56,9 @@ export default Component.extend({
     const yDomain = this.get('chartState.domain.y')
     const yTransform = yScale({domain: yDomain, range: yRange})
 
-    return data.map(entry => {
+    return data.map((entry, index) => {
       return {
+        index,
         x: xTransform(get(entry, this.x)),
         y: yTransform(get(entry, this.y))
       }

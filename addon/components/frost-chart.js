@@ -236,12 +236,12 @@ export default Component.extend(ResizeAware, {
 
   // == Tasks =================================================================
 
-  _resizeTask: task(function * () {
+  _resizeTask: task(function * ({height, width}) {
     yield timeout(1000 / 60) // 60FPS
 
     Ember.run.scheduleOnce('sync', this, this._resize.bind(this, {
-      height: this.$().height(),
-      width: this.$().width()
+      height,
+      width
     }))
   }).keepLatest(),
 
@@ -256,7 +256,7 @@ export default Component.extend(ResizeAware, {
 
   didResize(width, height) {
     if (this._hasDynamicRange()) {
-      this.get('_resizeTask').perform()
+      this.get('_resizeTask').perform({height, width})
     }
   },
 
