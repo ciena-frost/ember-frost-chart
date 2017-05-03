@@ -256,6 +256,21 @@ export default Component.extend({
     }
   },
 
+  didReceiveAttrs () {
+    this._super(...arguments)
+
+    const xDomainChanged = this.get('xDomain') !== this.get('_chartState.domain.x')
+    const yDomainChanged = this.get('yDomain') !== this.get('_chartState.domain.y')
+    const xRange = this.get('xRange')
+    const xRangeChanged = isNone(xRange) ? false : xRange !== this.get('_chartState.range.x')
+    const yRange = this.get('yRange')
+    const yRangeChanged = isNone(yRange) ? false : yRange !== this.get('_chartState.range.y')
+
+    if (xDomainChanged || yDomainChanged || xRangeChanged || yRangeChanged) {
+      run.scheduleOnce('sync', this, this._setupProperties)
+    }
+  },
+
   init () {
     this._super(...arguments)
     run.scheduleOnce('sync', this, this._setupProperties)
