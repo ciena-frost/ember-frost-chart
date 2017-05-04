@@ -46,8 +46,8 @@ export default Component.extend({
       return []
     }
 
-    const scale = this.get('chartState.scale.x')
-    const transform = scale({domain: xDomain, range: xRange})
+    const xScale = this.get('chartState.scale.x')
+    const xTransform = xScale({domain: xDomain, range: xRange})
     const ticks = this.get('ticks')(xDomain)
 
     // TODO
@@ -55,7 +55,7 @@ export default Component.extend({
 
     return ticks.map(tick => {
       return {
-        x: transform(get(tick, 'value')),
+        x: xTransform(get(tick, 'value')),
         y: yRange[0]
       }
     })
@@ -68,14 +68,14 @@ export default Component.extend({
       return []
     }
 
-    const scale = this.get('chartState.scale.y')
-    const transform = scale({domain: yDomain, range: yRange})
+    const yScale = this.get('chartState.scale.y')
+    const yTransform = yScale({domain: yDomain, range: yRange})
     const ticks = this.get('ticks')(yDomain)
 
     return ticks.map(tick => {
       return {
         x: xRange[1],
-        y: transform(get(tick, 'value'))
+        y: yTransform(get(tick, 'value'))
       }
     })
   },
