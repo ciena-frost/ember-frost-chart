@@ -1,12 +1,12 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { lineBoundedArea } from 'ember-frost-chart/helpers/line-bounded-area';
+import {expect} from 'chai'
+import {lineBoundedArea} from 'ember-frost-chart/helpers/line-bounded-area'
+import {describe, it} from 'mocha'
 
-describe('Unit | Helper | line bounded area', function() {
+describe.skip('Unit | Helper | line bounded area', function () {
   // Replace this with your real tests.
-  it('works', function() {
-    let result = lineBoundedArea(42);
-    expect(result).to.be.ok;
-  });
-});
+  it('works', function () {
+    let result = lineBoundedArea(42)
+    expect(result).not.to.equal(null)
+  })
+})
 

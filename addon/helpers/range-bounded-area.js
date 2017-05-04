@@ -11,16 +11,20 @@ export function rangeBoundedArea ({smooth = 'basis'}) {
   return function ({chartState, points, xRange, yRange}) {
     const _path = path()
 
-    const curve = curves[EmberString.camelize(`curve-${smooth}`)](_path)
-    curve.lineStart()
-    points.forEach(point => {
-      curve.point(point.x, point.y)
-    })
-    curve.lineEnd()
+    if (points.length >= 2) {
+      const curve = curves[EmberString.camelize(`curve-${smooth}`)](_path)
+      curve.lineStart()
+      points.forEach(point => {
+        curve.point(point.x, point.y)
+      })
+      curve.lineEnd()
 
-    _path.lineTo(xRange[1], yRange[0])
-    _path.lineTo(xRange[0], yRange[0])
-    _path.lineTo(points[0].x, points[0].y)
+      const firstPoint = points[0]
+      const lastPoint = points[points.length - 1]
+      _path.lineTo(lastPoint.x, yRange[0])
+      _path.lineTo(firstPoint.x, yRange[0])
+      _path.lineTo(firstPoint.x, firstPoint.y)
+    }
 
     return _path.toString()
   }

@@ -19,7 +19,7 @@ export function linearTicks ([ticks]) {
       const percentage = (index + 1) / ticks
       const tick = (domain[1] - domain[0]) * percentage + domain[0]
       return EmberObject.create({
-        index,
+        index: index + 1,
         value: tick
       })
     }))

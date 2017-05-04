@@ -1,1 +1,1 @@
-export { default, toFixed } from 'ember-frost-chart/helpers/to-fixed';
+export {default, toFixed} from 'ember-frost-chart/helpers/to-fixed'

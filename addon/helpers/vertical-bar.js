@@ -2,7 +2,7 @@
  * Helper definition for the vertical-bar helper
  */
 import Ember from 'ember'
-const {Helper, get} = Ember
+const {Helper} = Ember
 
 export function verticalBar () {
   return function ({data, x, y, xRange, xTransform, yRange, yTransform}) {

@@ -1,7 +1,7 @@
 .frost-chart-x-axis,
 .frost-chart-y-axis {
-  position: absolute;
   display: flex;
+  position: absolute;
   align-items: center;
 }
 
@@ -27,8 +27,8 @@
   flex-direction: row;
 
   .frost-chart-y-axis-label {
-    transform: rotate(-90deg);
     margin: 0 5px;
+    transform: rotate(-90deg);
   }
 
   .frost-chart-axis-tick {
@@ -37,13 +37,13 @@
 
   &.right {
     .frost-chart-y-axis-label {
-      transform: rotate(90deg);
       order: 1;
+      transform: rotate(90deg);
     }
   }
 }
 
 .frost-chart-axis-tick {
-  font-size: $frost-font-xs;
   color: $frost-color-grey-4;
+  font-size: $frost-font-xs;
 }
