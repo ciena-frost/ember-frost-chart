@@ -4,9 +4,9 @@
 
 import Ember from 'ember'
 const {String: EmberString} = Ember
-import {PropTypes} from 'ember-prop-types'
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
+import {PropTypes} from 'ember-prop-types'
 
 import layout from '../templates/components/frost-chart-svg'
 
@@ -45,7 +45,6 @@ export default Component.extend({
 
   // == Computed Properties ===================================================
 
-
   @readOnly
   @computed('chartState.canvas.height')
   height (height) {
@@ -54,6 +53,7 @@ export default Component.extend({
 
   @readOnly
   @computed('chartState.axes.initialized')
+  /* eslint complexity: [2, 7] */
   style (initializedAxes) {
     if (!initializedAxes) {
       return EmberString.htmlSafe('')
@@ -65,7 +65,7 @@ export default Component.extend({
     const canvasTopMargin = xAxisAlignment === 'top' ? xAxisHeight + yAxisFirstTickMargin : yAxisFirstTickMargin
 
     const yAxisAlignment = this.get('chartState.axes.y.alignment') || 'left'
-    const canvasHorizontalMargin = this.get('chartState.axes.y.width') || 0
+    const canvasHorizontalMargin = this.get('chartState.axes.y.width') || this.get('chartState.axes.x.firstTickMargin')
 
     return EmberString.htmlSafe(`
       position: absolute;

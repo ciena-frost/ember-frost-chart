@@ -1,1 +1,1 @@
-export { default } from 'ember-frost-chart/utils/extent';
+export {default} from 'ember-frost-chart/utils/extent'

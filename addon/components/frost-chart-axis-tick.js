@@ -4,9 +4,9 @@
 
 import Ember from 'ember'
 const {String: EmberString, isNone, run} = Ember
-import {PropTypes} from 'ember-prop-types'
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
+import {PropTypes} from 'ember-prop-types'
 
 export default Component.extend({
 

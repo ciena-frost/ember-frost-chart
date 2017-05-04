@@ -3,11 +3,10 @@
  */
 
 import Ember from 'ember'
-const {A, Object: EmberObject, Logger, assign, get, isEmpty, run, inject} = Ember
-import {task, timeout} from 'ember-concurrency'
-import {PropTypes} from 'ember-prop-types'
-import computed, {readOnly} from 'ember-computed-decorators'
+const {A, Logger, Object: EmberObject, get, isEmpty, isNone, run} = Ember
+import {task} from 'ember-concurrency'
 import {Component} from 'ember-frost-core'
+import {PropTypes} from 'ember-prop-types'
 
 import {linearScale} from '../helpers/d3-linear-scale'
 import layout from '../templates/components/frost-chart'
@@ -130,6 +129,7 @@ export default Component.extend({
     }
   },
 
+  /* eslint complexity: [2, 7] */
   _setupCanvas () {
     const chartHeight = this.get('_chartState.chart.height')
     const xAxisHeight = this.get('_chartState.axes.x.height') || 0
@@ -201,7 +201,6 @@ export default Component.extend({
       firstTickMargin,
       height,
       lastTickMargin,
-      ticks,
       tickHeight,
       width: width - firstTickMargin - lastTickMargin
     })
@@ -225,7 +224,6 @@ export default Component.extend({
       firstTickMargin,
       height: height - firstTickMargin - lastTickMargin,
       lastTickMargin,
-      ticks,
       width
     })
 
@@ -252,7 +250,7 @@ export default Component.extend({
     this._super(...arguments)
     run.scheduleOnce('sync', this, this._setupChart)
     if (this._hasDynamicRange()) {
-      window.addEventListener('resize', this._onResize.bind(this));
+      window.addEventListener('resize', this._onResize.bind(this))
     }
   },
 
@@ -276,11 +274,11 @@ export default Component.extend({
     run.scheduleOnce('sync', this, this._setupProperties)
   },
 
-  willDestroyElement() {
+  willDestroyElement () {
     if (this._hasDynamicRange()) {
       window.removeEventListener('resize', this._onResize.bind(this))
     }
-    this._super(...arguments);
+    this._super(...arguments)
   },
 
   // == Actions ===============================================================
@@ -291,16 +289,16 @@ export default Component.extend({
       switch (type) {
         case 'REGISTER_AXIS':
           this.incrementProperty('_chartState.axes.registered')
-          break;
+          break
         case 'RENDERED_TICK':
           this.get(`_chartState.axes.${get(action, 'axis')}.renderedTicks`).addObject(get(action, 'tick'))
-          break;
+          break
         case 'RENDERED_X_AXIS':
-          Ember.run.scheduleOnce('sync', this, this._setupXAxis.bind(this, get(action, 'axis')))
-          break;
+          run.scheduleOnce('sync', this, this._setupXAxis.bind(this, get(action, 'axis')))
+          break
         case 'RENDERED_Y_AXIS':
-          Ember.run.scheduleOnce('sync', this, this._setupYAxis.bind(this, get(action, 'axis')))
-          break;
+          run.scheduleOnce('sync', this, this._setupYAxis.bind(this, get(action, 'axis')))
+          break
         default:
           Logger.warn(`Unknown action type dispatched: ${type}`)
       }

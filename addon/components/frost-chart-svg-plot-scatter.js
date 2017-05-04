@@ -4,9 +4,9 @@
 
 import Ember from 'ember'
 const {get} = Ember
-import {PropTypes} from 'ember-prop-types'
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
+import {PropTypes} from 'ember-prop-types'
 
 import layout from '../templates/components/frost-chart-svg-plot-scatter'
 
@@ -42,18 +42,16 @@ export default Component.extend({
   // == Computed Properties ===================================================
 
   @readOnly
-  @computed('data.[]', 'chartState.range.x', 'chartState.range.y')
-  _points (data, xRange, yRange) {
-    if (!xRange || !yRange) {
+  @computed('data.[]', 'chartState.range.x', 'chartState.range.y', 'chartState.domain.x', 'chartState.domain.y')
+  _points (data, xRange, yRange, xDomain, yDomain) {
+    if (!xRange || !yRange || !xDomain || !yDomain) {
       return []
     }
 
     const xScale = this.get('chartState.scale.x')
-    const xDomain = this.get('chartState.domain.x')
     const xTransform = xScale({domain: xDomain, range: xRange})
 
     const yScale = this.get('chartState.scale.y')
-    const yDomain = this.get('chartState.domain.y')
     const yTransform = yScale({domain: yDomain, range: yRange})
 
     return data.map((entry, index) => {

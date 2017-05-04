@@ -7,18 +7,20 @@ import d3Shape from 'd3-shape'
 import Ember from 'ember'
 const {Helper, String: EmberString} = Ember
 
-export function d3Line (params, {smooth='basis'}) {
+export function d3Line (params, {smooth = 'basis'}) {
   return function (points) {
-    const path = d3Path()
+    const _path = d3Path()
 
-    const basis = d3Shape[EmberString.camelize(`curve-${smooth}`)](path)
-    basis.lineStart()
-    points.forEach(point => {
-      basis.point(point.x, point.y)
-    })
-    basis.lineEnd()
+    if (points.length >= 2) {
+      const basis = d3Shape[EmberString.camelize(`curve-${smooth}`)](_path)
+      basis.lineStart()
+      points.forEach(point => {
+        basis.point(point.x, point.y)
+      })
+      basis.lineEnd()
+    }
 
-    return path.toString()
+    return _path.toString()
   }
 }
 

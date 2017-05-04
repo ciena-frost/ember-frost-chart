@@ -3,13 +3,13 @@
  */
 
 import Ember from 'ember'
-const {A, Object: EmberObject, String: EmberString, assign, get, isEmpty, run} = Ember
-import {PropTypes} from 'ember-prop-types'
+const {String: EmberString, assign, get, run} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
+import {PropTypes} from 'ember-prop-types'
+import {linearTicks} from '../helpers/linear-ticks'
 
 import layout from '../templates/components/frost-chart-x-axis'
-import {linearTicks} from '../helpers/linear-ticks'
 
 export default Component.extend({
 
@@ -60,14 +60,13 @@ export default Component.extend({
   },
 
   @readOnly
-  @computed('_ticks', 'chartState.range.x')
-  _positionedTicks (ticks, range) {
-    if (!range) {
+  @computed('_ticks', 'chartState.range.x', 'chartState.domain.x')
+  _positionedTicks (ticks, range, domain) {
+    if (!range || !domain) {
       return ticks
     }
 
     const scale = this.get('chartState.scale.x')
-    const domain = this.get('chartState.domain.x')
     const transform = scale({domain, range})
 
     return ticks.map(tick => {
@@ -79,6 +78,7 @@ export default Component.extend({
 
   @readOnly
   @computed('chartState.axes.initialized', 'chartState.chart.width')
+  /* eslint complexity: [2, 7] */
   style (initializedAxes, chartWidth) {
     if (!initializedAxes || !chartWidth) {
       return EmberString.htmlSafe('')
@@ -94,8 +94,8 @@ export default Component.extend({
     return EmberString.htmlSafe(`
       ${xAxisAlignment}: ${get(chartPadding, xAxisAlignment)}px;
       width: calc(${chartWidth}px - ${yAxisWidth}px - ${xAxisFirstTickMargin}px - ${xAxisLastTickMargin}px);
-      margin-left: calc(${yAxisAlignment === 'left' ? yAxisWidth : 0}px);
-      margin-right: calc(${yAxisAlignment === 'right' ? yAxisWidth : 0}px);
+      margin-left: calc(${yAxisAlignment === 'left' ? yAxisWidth : xAxisFirstTickMargin}px);
+      margin-right: calc(${yAxisAlignment === 'right' ? yAxisWidth : xAxisLastTickMargin}px);
     `)
   },
 
