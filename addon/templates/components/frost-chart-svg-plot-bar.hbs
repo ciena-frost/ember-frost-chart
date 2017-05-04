@@ -1,5 +1,5 @@
 {{! Template for the frost-chart-svg-plot-bar component }}
 
-{{#each _bars as |bar|}}
+{{#each _bars key='@index' as |bar|}}
   {{yield bar}}
 {{/each}}
