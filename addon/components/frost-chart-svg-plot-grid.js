@@ -83,8 +83,12 @@ export default Component.extend({
   // == Functions =============================================================
 
   _isDomainValid (domain) {
+    if (!domain) {
+      return false
+    }
+
     const [min, max] = domain
-    return domain && isPresent(min) && !isNaN(min) && isPresent(max) && !isNaN(max)
+    return isPresent(min) && !isNaN(min) && isPresent(max) && !isNaN(max)
   }
 
   // == DOM Events ============================================================
