@@ -95,7 +95,7 @@ export default Component.extend({
       ${xAxisAlignment}: ${get(chartPadding, xAxisAlignment)}px;
       width: calc(${chartWidth}px - ${yAxisWidth}px - ${xAxisFirstTickMargin}px - ${xAxisLastTickMargin}px);
       margin-left: calc(${yAxisAlignment === 'left' ? yAxisWidth : xAxisFirstTickMargin}px);
-      margin-right: calc(${yAxisAlignment === 'right' ? yAxisWidth : xAxisFirstTickMargin}px);
+      margin-right: calc(${yAxisAlignment === 'right' ? yAxisWidth : xAxisLastTickMargin}px);
     `)
   },
 
