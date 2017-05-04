@@ -3,7 +3,7 @@
  */
 
 import Ember from 'ember'
-const {A, Logger, Object: EmberObject, get, isEmpty, run} = Ember
+const {A, Logger, Object: EmberObject, get, isEmpty, isNone, run} = Ember
 import {task} from 'ember-concurrency'
 import {Component} from 'ember-frost-core'
 import {PropTypes} from 'ember-prop-types'
