@@ -250,8 +250,8 @@ export default Component.extend({
     this._super(...arguments)
     run.scheduleOnce('sync', this, this._setupChart)
     if (this._hasDynamicRange()) {
-      this.set('_boundedOnResize', this._onResize.bind(this))
-      window.addEventListener('resize', this.get('_boundedOnResize'))
+      this.set('_boundOnResize', this._onResize.bind(this))
+      window.addEventListener('resize', this.get('_boundOnResize'))
     }
   },
 
@@ -277,7 +277,7 @@ export default Component.extend({
 
   willDestroyElement () {
     if (this._hasDynamicRange()) {
-      window.removeEventListener('resize', this.get('_boundedOnResize'))
+      window.removeEventListener('resize', this.get('_boundOnResize'))
     }
     this._super(...arguments)
   },
