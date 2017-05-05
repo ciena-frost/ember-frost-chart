@@ -1,0 +1,25 @@
+@import 'node_modules/ember-frost-core/addon/styles/frost-theme';
+@import 'node_modules/ember-frost-core/addon/styles/frost-app';
+
+.demo-body {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 10px;
+  height: 100%;
+}
+
+.demo-full {
+  height: 100%;
+  width: 100%;
+}
+
+.demo-row {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+.demo-flex {
+  flex: 1;
+}

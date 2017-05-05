@@ -1,0 +1,36 @@
+{{! Template for the frost-chart-svg component }}
+
+{{#if chartState.axes.initialized}}
+  {{yield
+    (hash
+      area=(component 'frost-chart-svg-plot-area'
+        area=(range-bounded-area)
+        chartState=chartState
+        hook=(concat hookPrefix '-area')
+      )
+
+      bar=(component 'frost-chart-svg-plot-bar'
+        bar=(vertical-bar)
+        chartState=chartState
+        hook=(concat hookPrefix '-bar')
+      )
+
+      grid=(component 'frost-chart-svg-plot-grid'
+        chartState=chartState
+        hook=(concat hookPrefix '-grid')
+        ticks=(linear-ticks 10)
+      )
+
+      line=(component 'frost-chart-svg-plot-line'
+        chartState=chartState
+        hook=(concat hookPrefix '-line')
+        line=(d3-line)
+      )
+
+      scatter=(component 'frost-chart-svg-plot-scatter'
+        chartState=chartState
+        hook=(concat hookPrefix '-scatter')
+      )
+    )
+  }}
+{{/if}}
