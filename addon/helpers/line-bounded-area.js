@@ -7,7 +7,7 @@ import curves from 'd3-shape'
 import Ember from 'ember'
 const {A, Helper, String: EmberString, get} = Ember
 
-export function lineBoundedArea ({smooth = 'basis', x = 'x', y = 'y'}) {
+export function lineBoundedArea (params, {smooth = 'basis', x = 'x', y = 'y'}) {
   return function ({boundingData, points, xRange, xTransform, yRange, yTransform}) {
     // Create the path
     const _path = d3path()

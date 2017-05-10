@@ -7,7 +7,7 @@ import curves from 'd3-shape'
 import Ember from 'ember'
 const {Helper, String: EmberString} = Ember
 
-export function rangeBoundedArea ({smooth = 'basis'}) {
+export function rangeBoundedArea (params, {smooth = 'basis'}) {
   return function ({chartState, points, xRange, yRange}) {
     const _path = path()
 
