@@ -1,3 +1,8 @@
+# 1.1.0 (2017-05-10)
+* **Exposed** chart state for `frost-chart`
+* **Fixed** first parameter missing in helper
+
+
 # 1.0.1 (2017-05-10)
 * **Updated** the secure tokens in `.travis.yml`
 
