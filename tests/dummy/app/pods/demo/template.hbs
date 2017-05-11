@@ -41,7 +41,7 @@
     {{/chart.y-axis}}
 
     {{#chart.svg as |plot|}}
-      {{plot.grid}}
+      {{plot.x-grid}}
 
       {{plot.line data=data x='x' y='y'}}
     {{/chart.svg}}
