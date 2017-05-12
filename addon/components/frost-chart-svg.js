@@ -75,12 +75,6 @@ export default Component.extend({
   },
 
   @readOnly
-  @computed('chartState.canvas.height', 'chartState.canvas.width')
-  viewBox (canvasHeight, canvasWidth) {
-    return EmberString.htmlSafe(`0 0 ${canvasHeight} ${canvasWidth}`)
-  },
-
-  @readOnly
   @computed('chartState.canvas.width')
   width (width) {
     return EmberString.htmlSafe(width)

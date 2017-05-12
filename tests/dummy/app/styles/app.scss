@@ -22,4 +22,16 @@
 
 .demo-flex {
   flex: 1;
+
+  .frost-chart-x-axis-svg {
+    text {
+      alignment-baseline: hanging;
+      text-anchor: end;
+    }
+
+    line {
+      stroke-width: 1px;
+      stroke: #cdcdcd;
+    }
+  }
 }
