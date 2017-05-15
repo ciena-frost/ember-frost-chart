@@ -41,7 +41,7 @@ export default Component.extend({
   @readOnly
   @computed('coordinate')
   transform (coordinate) {
-    if (isNone(coordinate) && isNaN(coordinate)) {
+    if (isNone(coordinate) || isNaN(coordinate)) {
       return EmberString.htmlSafe('')
     }
 
