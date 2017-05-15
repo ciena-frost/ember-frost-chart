@@ -21,7 +21,7 @@ export default Component.extend({
   propTypes: {
     // options
     axis: PropTypes.string.isRequired,
-    coordinate: PropTypes.number
+    coordinate: PropTypes.number.isRequired
 
     // state
   },

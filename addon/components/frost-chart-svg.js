@@ -19,7 +19,6 @@ export default Component.extend({
   attributeBindings: [
     'height',
     'style',
-    'viewbox',
     'width'
   ],
   layout,

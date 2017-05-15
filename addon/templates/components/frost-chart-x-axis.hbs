@@ -2,7 +2,7 @@
 <div class='{{css}}-label'>{{label}}</div>
 
 <div class='{{css}}-ticks' style={{_tickHeight}}>
-  {{#each _positionedTicks key='index' as |tick|}}
+  {{#each _positionedTicks key='@index' as |tick|}}
     {{#frost-chart-axis-tick
       axis=_axis
       coordinate=tick.coordinate

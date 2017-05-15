@@ -2,7 +2,7 @@
 <div class='{{css}}-label'>{{label}}</div>
 
 <svg width={{_svgWidth}} height={{_svgHeight}} class='{{css}}-ticks'>
-  {{#each _positionedTicks key='index' as |tick|}}
+  {{#each _positionedTicks key='@index' as |tick|}}
     {{#frost-chart-axis-tick-svg
       axis=_axis
       coordinate=tick.coordinate

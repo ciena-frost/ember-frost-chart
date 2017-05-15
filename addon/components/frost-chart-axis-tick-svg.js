@@ -22,7 +22,7 @@ export default Component.extend({
   propTypes: {
     // options
     axis: PropTypes.string.isRequired,
-    coordinate: PropTypes.number
+    coordinate: PropTypes.number.isRequired
 
     // state
   },
@@ -45,14 +45,9 @@ export default Component.extend({
       return EmberString.htmlSafe('')
     }
 
-    // calc is added to align the middle of the tick with the location
-    let x = 0
-    let y = 0
-    if (this.get('axis') === 'x') {
-      x = coordinate
-    } else {
-      y = coordinate
-    }
+    const axis = this.get('axis')
+    const x = axis === 'x' ? coordinate : 0
+    const y = axis === 'y' ? coordinate : 0
 
     return `translate(${x}, ${y})`
   },
@@ -63,6 +58,7 @@ export default Component.extend({
     this.dispatch({
       type: 'RENDERED_TICK',
       axis: this.get('axis'),
+      // FIXME: #8 Fixe height and width measurement calculation
       tick: {
         height: this.$().outerHeight(true),
         width: this.$().outerWidth(true)

@@ -46,7 +46,7 @@ export default Component.extend({
 
       // state
       _axis: 'x',
-      // FIXME: Calculate the height of the text to get the height of the svg in the axis
+      // FIXME: #9 Calculate the height of the text to get the height of the svg in the axis
       _svgHeight: 20
 
     }
@@ -121,7 +121,7 @@ export default Component.extend({
       axis: {
         alignment: this.get('alignment'),
         height: this.$().outerHeight(true) + this.get('offset'),
-        ticks: this.get('_ticks'),
+        // ticks: this.get('_ticks'),
         tickHeight: this.$(`.${this.get('css')}-ticks`).height()
       }
     })

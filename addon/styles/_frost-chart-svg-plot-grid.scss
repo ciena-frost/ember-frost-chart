@@ -1,9 +1,7 @@
-.frost-chart-svg-plot {
-  &-x-grid,
-  &-y-grid {
-    line {
-      stroke: $frost-color-grey-7;
-      stroke-width: 1px;
-    }
+.frost-chart-svg-plot-x-grid,
+.frost-chart-svg-plot-y-grid {
+  line {
+    stroke: $frost-color-grey-7;
+    stroke-width: 1px;
   }
 }

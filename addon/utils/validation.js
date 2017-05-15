@@ -1,5 +1,5 @@
 import Ember from 'ember'
-const {isPresent} = Ember
+const {Logger, isPresent} = Ember
 
 function isDomainValid (domain) {
   if (!domain) {
@@ -7,7 +7,12 @@ function isDomainValid (domain) {
   }
 
   const [min, max] = domain
-  return isPresent(min) && !isNaN(min) && isPresent(max) && !isNaN(max)
+  const isValid = isPresent(min) && !isNaN(min) && isPresent(max) && !isNaN(max)
+  if (!isValid) {
+    Logger.debug(`Invalid domain: [${min}, ${max}]`)
+  }
+
+  return isValid
 }
 
 export {isDomainValid}

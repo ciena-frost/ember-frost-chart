@@ -1,6 +1,7 @@
 /**
  * Component definition for the frost-chart-svg-plot-x-grid component
  */
+
 import Ember from 'ember'
 const {get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
@@ -20,11 +21,6 @@ export default Component.extend({
 
   // == PropTypes =============================================================
 
-  /**
-   * Properties for this component. Options are expected to be (potentially)
-   * passed in to the component. State properties are *not* expected to be
-   * passed in/overwritten.
-   */
   propTypes: {
     // options
     chartState: PropTypes.EmberObject.isRequired,
@@ -33,7 +29,6 @@ export default Component.extend({
     // state
   },
 
-  /** @returns {Object} the default property values when not provided by consumer */
   getDefaultProps () {
     return {
       // options
@@ -55,16 +50,13 @@ export default Component.extend({
     const xTransform = xScale({domain: xDomain, range: xRange})
     const ticks = this.get('ticks')(xDomain)
 
-    // TODO
-    // left: calc(${coordinate}px - ${this.$().outerWidth()}px / 2);
-
     return ticks.map(tick => {
       return {
         x: xTransform(get(tick, 'value')),
         y: yRange[0]
       }
     })
-  },
+  }
 
   // == Functions =============================================================
 
@@ -73,7 +65,4 @@ export default Component.extend({
   // == Lifecycle Hooks =======================================================
 
   // == Actions ===============================================================
-
-  actions: {
-  }
 })

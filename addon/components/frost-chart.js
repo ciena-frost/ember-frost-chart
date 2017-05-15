@@ -191,7 +191,7 @@ export default Component.extend({
     this.set('_chartState.scale.y', this.get('yScale'))
   },
 
-  _setupXAxis ({alignment, height, ticks, tickHeight, width}) {
+  _setupXAxis ({alignment, height, tickHeight, width}) {
     const renderedTicks = this.get('_chartState.axes.x.renderedTicks')
     const firstTickMargin = renderedTicks.get('firstObject.width') / 2
     const lastTickMargin = renderedTicks.get('lastObject.width') / 2
@@ -214,7 +214,7 @@ export default Component.extend({
     }
   },
 
-  _setupYAxis ({alignment, height, ticks, width}) {
+  _setupYAxis ({alignment, height, width}) {
     const renderedTicks = this.get('_chartState.axes.y.renderedTicks')
     const firstTickMargin = renderedTicks.get('firstObject.height') / 2
     const lastTickMargin = renderedTicks.get('lastObject.height') / 2
