@@ -1,0 +1,32 @@
+.frost-guage {
+  position: relative;
+
+  &-text {
+    position: static;
+    margin-top: -60%;
+    margin-left: 15%;
+    width: 70%;
+    text-align: center;
+    color: $frost-color-grey-1;
+  }
+
+  .track {
+    stroke: $frost-color-lgrey-1;
+    stroke-width: 10px;
+    stroke-dashoffset: 0;
+  }
+
+  .fill {
+    stroke-width: 3px;
+  }
+
+  .scale-labels {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    .scale-label {
+      position: absolute;
+    }
+  }
+}

@@ -50,5 +50,39 @@ export default Controller.extend({
   @computed('data')
   yDomain (data) {
     return extent(data.mapBy('y'))
-  }
+  },
+
+  arcData: [
+    {
+      value: 10,
+      color: '#00aaff',
+      label: 'not implemented yet',
+      classes: 'first'
+    },
+    {
+      value: 30,
+      color: '#00ddff',
+      classes: 'second'
+    },
+    {
+      value: 10,
+      color: '#00bbdd',
+      classes: 'third'
+    },
+    {
+      value: 25,
+      color: '#0088aa',
+      classes: 'fourth'
+    },
+    {
+      value: 15,
+      color: '#003366',
+      classes: 'fifth'
+    },
+    {
+      value: 10,
+      color: '#ffffff',
+      classes: 'sixth'
+    }
+  ]
 })

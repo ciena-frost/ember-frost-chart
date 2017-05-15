@@ -23,3 +23,35 @@
 .demo-flex {
   flex: 1;
 }
+
+.frost-guage {
+  .track {
+    stroke: $frost-color-lgrey-1;
+    stroke-width: 15px;
+    stroke-dashoffset: 0;
+  }
+
+  .first {
+    stroke-width: 3px;
+  }
+
+  .second {
+    stroke-width: 5px;
+  }
+
+  .third {
+    stroke-width: 7px;
+  }
+
+  .fourth {
+    stroke-width: 9px;
+  }
+
+  .fifth {
+    stroke-width: 7px;
+  }
+
+  .sixth {
+    stroke-width: 5px;
+  }
+}
