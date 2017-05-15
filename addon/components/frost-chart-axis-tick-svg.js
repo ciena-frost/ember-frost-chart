@@ -1,5 +1,5 @@
 /**
- * Component definition for the frost-chart-axis-tick component
+ * Component definition for the frost-chart-axis-tick-svg component
  */
 
 import Ember from 'ember'
@@ -14,7 +14,8 @@ export default Component.extend({
 
   // == Keyword Properties ====================================================
 
-  attributeBindings: ['style'],
+  attributeBindings: ['transform'],
+  tagName: 'g',
 
   // == PropTypes =============================================================
 
@@ -39,23 +40,16 @@ export default Component.extend({
 
   @readOnly
   @computed('coordinate')
-  style (coordinate) {
+  transform (coordinate) {
     if (isNone(coordinate)) {
       return EmberString.htmlSafe('')
     }
 
-    // calc is added to align the middle of the tick with the location
-    if (this.get('axis') === 'x') {
-      return EmberString.htmlSafe(`
-        position: absolute;
-        left: calc(${coordinate}px - ${this.$().outerWidth()}px / 2);
-      `)
-    } else {
-      return EmberString.htmlSafe(`
-        position: absolute;
-        top: calc(${coordinate}px - ${this.$().outerHeight()}px / 2);
-      `)
-    }
+    const axis = this.get('axis')
+    const x = axis === 'x' ? coordinate : 0
+    const y = axis === 'y' ? coordinate : 0
+
+    return `translate(${x}, ${y})`
   },
 
   // == Functions =============================================================
@@ -64,6 +58,7 @@ export default Component.extend({
     this.dispatch({
       type: 'RENDERED_TICK',
       axis: this.get('axis'),
+      // FIXME: #8 Fixe height and width measurement calculation
       tick: {
         height: this.$().outerHeight(true),
         width: this.$().outerWidth(true)

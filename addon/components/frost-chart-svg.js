@@ -19,7 +19,6 @@ export default Component.extend({
   attributeBindings: [
     'height',
     'style',
-    'viewbox',
     'width'
   ],
   layout,
@@ -72,12 +71,6 @@ export default Component.extend({
       top: ${canvasTopMargin}px;
       ${yAxisAlignment}: ${canvasHorizontalMargin}px;
     `)
-  },
-
-  @readOnly
-  @computed('chartState.canvas.height', 'chartState.canvas.width')
-  viewBox (canvasHeight, canvasWidth) {
-    return EmberString.htmlSafe(`0 0 ${canvasHeight} ${canvasWidth}`)
   },
 
   @readOnly

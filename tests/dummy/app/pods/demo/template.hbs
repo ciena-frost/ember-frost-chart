@@ -16,7 +16,8 @@
     {{/chart.y-axis}}
 
     {{#chart.svg as |plot|}}
-      {{plot.grid}}
+      {{plot.x-grid}}
+      {{plot.y-grid}}
 
       {{#plot.bar data=data x='x' y='y' as |bar|}}
         <rect x={{bar.x}} y={{bar.y}} width={{bar.width}} height={{bar.height}} />
@@ -32,16 +33,17 @@
     yScale=(d3-linear-scale)
     as |chart|
   }}
-    {{#chart.x-axis label='Line' as |tick|}}
-      {{to-fixed tick 0}}
-    {{/chart.x-axis}}
+    {{#chart.x-axis-svg label='Line' alignment='top' offset=-6 as |tick|}}
+      <text x=-7 y=0>Foo {{to-fixed tick 0}}</text>
+      <line x1=0 y1=0 x2=0 y2=20 />
+    {{/chart.x-axis-svg}}
 
     {{#chart.y-axis as |tick|}}
       {{to-fixed tick 0}}
     {{/chart.y-axis}}
 
     {{#chart.svg as |plot|}}
-      {{plot.grid}}
+      {{plot.x-grid}}
 
       {{plot.line data=data x='x' y='y'}}
     {{/chart.svg}}
@@ -66,7 +68,8 @@
     {{/chart.y-axis}}
 
     {{#chart.svg as |plot|}}
-      {{plot.grid}}
+      {{plot.x-grid}}
+      {{plot.y-grid}}
 
       {{#plot.scatter data=data x='x' y='y' as |point|}}
         <circle cx={{point.x}} cy={{point.y}} r=4 fill='red' />
@@ -91,7 +94,8 @@
     {{/chart.y-axis}}
 
     {{#chart.svg as |plot|}}
-      {{plot.grid}}
+      {{plot.x-grid}}
+      {{plot.y-grid}}
 
       {{plot.area data=data x='x' y='y'}}
     {{/chart.svg}}
@@ -116,7 +120,8 @@
     {{/chart.y-axis}}
 
     {{#chart.svg as |plot|}}
-      {{plot.grid}}
+      {{plot.x-grid}}
+      {{plot.y-grid}}
 
       {{plot.area boundingData=boundingData data=data x='x' y='y'
         area=(line-bounded-area)
