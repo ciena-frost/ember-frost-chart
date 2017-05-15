@@ -1,3 +1,8 @@
+# 2.0.0 (2017-05-15)
+* **Added** independent x and y grid
+* **Added** svg x axis
+* **Replaced** `frost-char-svg-plot-grid` by `frost-char-svg-plot-x-grid` and `frost-char-svg-plot-y-grid`
+
 # 1.1.0 (2017-05-10)
 * **Exposed** chart state for `frost-chart`
 * **Fixed** first parameter missing in helper
