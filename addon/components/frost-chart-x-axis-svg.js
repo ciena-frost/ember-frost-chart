@@ -1,17 +1,18 @@
 /**
-* Component definition for the frost-chart-y-axis component
-*/
+ * Component definition for the frost-chart-x-axis component
+ */
 
 import Ember from 'ember'
 const {String: EmberString, assign, get, run} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
-import {linearTicks} from '../helpers/linear-ticks'
 import {PropTypes} from 'ember-prop-types'
+import {linearTicks} from '../helpers/linear-ticks'
 
-import layout from '../templates/components/frost-chart-y-axis'
+import layout from '../templates/components/frost-chart-x-axis-svg'
 
 export default Component.extend({
+
   // == Dependencies ==========================================================
 
   // == Keyword Properties ====================================================
@@ -24,9 +25,10 @@ export default Component.extend({
 
   propTypes: {
     // options
-    alignment: PropTypes.oneOf(['left', 'right']),
+    alignment: PropTypes.oneOf(['top', 'bottom']),
     label: PropTypes.string,
     ticks: PropTypes.func,
+    offset: PropTypes.number,
 
     chartState: PropTypes.EmberObject.isRequired,
     dispatch: PropTypes.func.isRequired
@@ -37,35 +39,39 @@ export default Component.extend({
   getDefaultProps () {
     return {
       // options
-      aligment: 'left',
+      aligment: 'bottom',
       label: null,
       ticks: linearTicks([10]),
+      offset: 0,
 
       // state
-      _axis: 'y'
+      _axis: 'x',
+      // FIXME: #9 Calculate the height of the text to get the height of the svg in the axis
+      _svgHeight: 20
+
     }
   },
 
   // == Computed Properties ===================================================
 
   @readOnly
-  @computed('chartState.chart.initialized', 'chartState.domain.y')
-  _ticks (initialized, domain) {
-    if (!initialized) {
+  @computed('chartState.chart.initialized', 'chartState.domain.x')
+  _ticks (initializedChart, domain) {
+    if (!initializedChart) {
       return []
     }
 
-    return this.ticks(domain).reverse()
+    return this.ticks(domain)
   },
 
   @readOnly
-  @computed('_ticks', 'chartState.range.y', 'chartState.domain.y')
+  @computed('_ticks', 'chartState.range.x', 'chartState.domain.x')
   _positionedTicks (ticks, range, domain) {
     if (!range || !domain) {
       return ticks
     }
 
-    const scale = this.get('chartState.scale.y')
+    const scale = this.get('chartState.scale.x')
     const transform = scale({domain, range})
 
     return ticks.map(tick => {
@@ -76,38 +82,47 @@ export default Component.extend({
   },
 
   @readOnly
-  @computed('chartState.axes.initialized', 'chartState.chart.height')
-  style (initializedAxes, chartHeight) {
-    if (!initializedAxes || !chartHeight) {
+  @computed('chartState.axes.initialized', 'chartState.chart.width')
+  /* eslint complexity: [2, 7] */
+  style (initializedAxes, chartWidth) {
+    if (!initializedAxes || !chartWidth) {
       return EmberString.htmlSafe('')
     }
 
     const chartPadding = this.get('chartState.chart.padding')
-    const xAxisAlignment = this.get('chartState.axes.x.alignment')
-    const xAxisHeight = this.get('chartState.axes.x.height')
     const yAxisAlignment = this.get('chartState.axes.y.alignment')
-    const yAxisFirstTickMargin = this.get('chartState.axes.y.firstTickMargin')
-    const yAxisLastTickMargin = this.get('chartState.axes.y.lastTickMargin')
+    const yAxisWidth = this.get('chartState.axes.y.width') || 0
+    const xAxisAlignment = this.get('chartState.axes.x.alignment')
+    const xAxisFirstTickMargin = this.get('chartState.axes.x.firstTickMargin')
+    const xAxisLastTickMargin = this.get('chartState.axes.x.lastTickMargin')
 
-    // TODO I believe we're missing the padding calculation for the opposing direction (e.g. right)
-    // TODO We may also have an issue when only one axis is present (see margin calcs)
     return EmberString.htmlSafe(`
-      ${yAxisAlignment}: ${get(chartPadding, yAxisAlignment)}px;
-      height: calc(${chartHeight}px - ${xAxisHeight}px - ${yAxisFirstTickMargin}px - ${yAxisLastTickMargin}px);
-      margin-top: calc(${xAxisAlignment === 'top' ? xAxisHeight : 0}px + ${yAxisFirstTickMargin}px);
-      margin-bottom: calc(${xAxisAlignment === 'bottom' ? xAxisHeight : 0}px + ${yAxisLastTickMargin}px);
+      ${xAxisAlignment}: ${get(chartPadding, xAxisAlignment)}px;
+      margin-left: calc(${yAxisAlignment === 'left' ? yAxisWidth : xAxisFirstTickMargin}px);
+      margin-right: calc(${yAxisAlignment === 'right' ? yAxisWidth : xAxisLastTickMargin}px);
     `)
+  },
+
+  @readOnly
+  @computed('chartState.axes.initialized', 'chartState.chart.width')
+  _svgWidth (initializedAxes, chartWidth) {
+    const yAxisWidth = this.get('chartState.axes.y.width') || 0
+    const xAxisFirstTickMargin = this.get('chartState.axes.x.firstTickMargin')
+    const xAxisLastTickMargin = this.get('chartState.axes.x.lastTickMargin')
+
+    return chartWidth - yAxisWidth - xAxisFirstTickMargin - xAxisLastTickMargin
   },
 
   // == Functions =============================================================
 
   _dispatchRenderedAxis () {
     this.dispatch({
-      type: 'RENDERED_Y_AXIS',
+      type: 'RENDERED_X_AXIS',
       axis: {
         alignment: this.get('alignment'),
-        height: this.$().outerHeight(true),
-        width: this.$().outerWidth(true)
+        height: this.$().outerHeight(true) + this.get('offset'),
+        // ticks: this.get('_ticks'),
+        tickHeight: this.$(`.${this.get('css')}-ticks`).height()
       }
     })
   },
@@ -129,4 +144,5 @@ export default Component.extend({
   }
 
   // == Actions ===============================================================
+
 })

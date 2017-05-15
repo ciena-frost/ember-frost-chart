@@ -1,17 +1,17 @@
 /**
- * Component definition for the frost-chart-svg-plot-grid component
+ * Component definition for the frost-chart-svg-plot-x-grid component
  */
 
 import Ember from 'ember'
-const {get, isPresent} = Ember
+const {get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
+import {isDomainValid} from 'ember-frost-chart/utils/validation'
 import {Component} from 'ember-frost-core'
 import {PropTypes} from 'ember-prop-types'
 
-import layout from '../templates/components/frost-chart-svg-plot-grid'
+import layout from '../templates/components/frost-chart-svg-plot-x-grid'
 
 export default Component.extend({
-
   // == Dependencies ==========================================================
 
   // == Keyword Properties ====================================================
@@ -41,8 +41,8 @@ export default Component.extend({
 
   @readOnly
   @computed('chartState.range.x', 'chartState.range.y', 'chartState.domain.x')
-  _xAxisTicks (xRange, yRange, xDomain) {
-    if (!xRange || !yRange || !this._isDomainValid(xDomain)) {
+  _ticks (xRange, yRange, xDomain) {
+    if (!xRange || !yRange || !isDomainValid(xDomain)) {
       return []
     }
 
@@ -50,51 +50,19 @@ export default Component.extend({
     const xTransform = xScale({domain: xDomain, range: xRange})
     const ticks = this.get('ticks')(xDomain)
 
-    // TODO
-    // left: calc(${coordinate}px - ${this.$().outerWidth()}px / 2);
-
     return ticks.map(tick => {
       return {
         x: xTransform(get(tick, 'value')),
         y: yRange[0]
       }
     })
-  },
-
-  @readOnly
-  @computed('chartState.range.x', 'chartState.range.y', 'chartState.domain.y')
-  _yAxisTicks (xRange, yRange, yDomain) {
-    if (!xRange || !yRange || !this._isDomainValid(yDomain)) {
-      return []
-    }
-
-    const yScale = this.get('chartState.scale.y')
-    const yTransform = yScale({domain: yDomain, range: yRange})
-    const ticks = this.get('ticks')(yDomain)
-
-    return ticks.map(tick => {
-      return {
-        x: xRange[1],
-        y: yTransform(get(tick, 'value'))
-      }
-    })
-  },
+  }
 
   // == Functions =============================================================
-
-  _isDomainValid (domain) {
-    if (!domain) {
-      return false
-    }
-
-    const [min, max] = domain
-    return isPresent(min) && !isNaN(min) && isPresent(max) && !isNaN(max)
-  }
 
   // == DOM Events ============================================================
 
   // == Lifecycle Hooks =======================================================
 
   // == Actions ===============================================================
-
 })

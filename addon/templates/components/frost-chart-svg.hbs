@@ -15,9 +15,15 @@
         hook=(concat hookPrefix '-bar')
       )
 
-      grid=(component 'frost-chart-svg-plot-grid'
+      x-grid=(component 'frost-chart-svg-plot-x-grid'
         chartState=chartState
-        hook=(concat hookPrefix '-grid')
+        hook=(concat hookPrefix '-xGrid')
+        ticks=(linear-ticks 10)
+      )
+
+      y-grid=(component 'frost-chart-svg-plot-y-grid'
+        chartState=chartState
+        hook=(concat hookPrefix '-yGrid')
         ticks=(linear-ticks 10)
       )
 

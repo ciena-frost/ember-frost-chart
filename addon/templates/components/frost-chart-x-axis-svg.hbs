@@ -1,9 +1,9 @@
-{{! Template for the frost-chart-axis component }}
+{{! Template for the frost-chart-x-axis-svg component }}
 <div class='{{css}}-label'>{{label}}</div>
 
-<div class='{{css}}-ticks' style={{_tickHeight}}>
+<svg width={{_svgWidth}} height={{_svgHeight}} class='{{css}}-ticks'>
   {{#each _positionedTicks key='@index' as |tick|}}
-    {{#frost-chart-axis-tick
+    {{#frost-chart-axis-tick-svg
       axis=_axis
       coordinate=tick.coordinate
       dispatch=dispatch
@@ -17,6 +17,6 @@
       {{else}}
         {{tick.value}}
       {{/if}}
-    {{/frost-chart-axis-tick}}
+    {{/frost-chart-axis-tick-svg}}
   {{/each}}
-</div>
+</svg>

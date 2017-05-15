@@ -113,7 +113,6 @@ export default Component.extend({
       axis: {
         alignment: this.get('alignment'),
         height: this.$().outerHeight(true),
-        ticks: this.get('_ticks'),
         tickHeight: this.$(`.${this.get('css')}-ticks`).height()
       }
     })
