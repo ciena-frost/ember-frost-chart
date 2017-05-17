@@ -1,7 +1,7 @@
-.frost-guage {
+.frost-gauge {
   position: relative;
 
-  &-text {
+  .frost-gauge-text {
     position: static;
     width: 70%;
     margin-top: -60%;
@@ -18,16 +18,5 @@
 
   .fill {
     stroke-width: 3px;
-  }
-
-  .scale-labels {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-
-    .scale-label {
-      position: absolute;
-    }
   }
 }
