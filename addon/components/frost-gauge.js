@@ -23,13 +23,16 @@ export default Component.extend({
   propTypes: {
     // required
     data: PropTypes.arrayOf(PropTypes.object).isRequired,
-    max: PropTypes.number.isRequired,
-    min: PropTypes.number.isRequired,
-    size: PropTypes.number.isRequired,
 
     // options
     direction: PropTypes.oneOf(['clockwise', 'counterclockwise']),
+    max: PropTypes.number,
+    min: PropTypes.number,
+    negativeColor: PropTypes.string,
+    negativeClass: PropTypes.string,
+    negativeLabel: PropTypes.string,
     orientation: PropTypes.number,
+    size: PropTypes.number,
     text: PropTypes.string
   },
 
@@ -38,10 +41,11 @@ export default Component.extend({
       data: [],
       direction: 'clockwise',
       orientation: 0,
-      max: 100,
       min: 0,
+      negativeColor: '#ffffff',
+      negativeClass: 'negative-value',
+      negativeLabel: '',
       size: 150,
-
       _padding: 10
     }
   },
@@ -57,11 +61,21 @@ export default Component.extend({
   @computed('orientation', 'direction')
   arcs (orientation, direction) {
     const circumference = this.get('circumference')
-    const max = parseInt(this.get('max'), 10)
+    // const max = parseInt(this.get('max'), 10)
+    const max = parseInt(this.get('maxRange'), 10)
     const min = parseInt(this.get('min'), 10)
     let rotationOffset = 0
-    const newData = this.get('data')
-    const transformList = newData.map((item, index) => {
+    const dataSlice = this.get('data').slice()
+    if (isPresent(this.get('negativeValue'))) {
+      const negativeData = {
+        value: this.get('negativeValue'),
+        color: this.get('negativeColor'),
+        class: this.get('negativeClass'),
+        label: this.get('nevativeLabel')
+      }
+      dataSlice.push(negativeData)
+    }
+    const transformList = dataSlice.map((item, index) => {
       const value = parseInt(item.value, 10)
       const percent = this.getPercent(max, min, value)
       const offset = (1 - percent) * circumference
@@ -92,6 +106,16 @@ export default Component.extend({
   },
 
   @readOnly
+  @computed('data.@each')
+  dataValueTotal (data) {
+    let dataValueTotal = 0
+    data.forEach((item) => {
+      dataValueTotal += item.value
+    })
+    return dataValueTotal
+  },
+
+  @readOnly
   @computed('radius')
   diameter (radius) {
     return radius * 2
@@ -107,6 +131,28 @@ export default Component.extend({
       return Ember.String.htmlSafe(text)
     }
     return ''
+  },
+
+  @readOnly
+  @computed('max', 'dataValueTotal')
+  maxRange (max, dataValueTotal) {
+    if (isPresent(this.get('max'))) {
+      return this.get('max')
+    }
+    return dataValueTotal
+  },
+
+  @readOnly
+  @computed('max', 'dataValueTotal')
+  negativeValue (max, dataValueTotal) {
+    if (isPresent(max)) {
+      const _max = parseInt(max, 10)
+      const _dataValueTotal = parseInt(dataValueTotal, 10)
+      if (_dataValueTotal <= _max) {
+        return _max - _dataValueTotal
+      }
+    }
+    return null
   },
 
   @readOnly
