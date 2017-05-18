@@ -1,3 +1,7 @@
+# 2.2.1 (2017-05-18)
+* **Added** more observers to arc
+
+
 # 2.2.0 (2017-05-18)
 Added guage
 
