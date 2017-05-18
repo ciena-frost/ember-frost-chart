@@ -1,6 +1,6 @@
 {
   "name": "ember-frost-chart",
-  "version": "2.2.1",
+  "version": "3.0.0",
   "description": "Composable charts with decoupled axes / plots and some extra pizzazz",
   "directories": {
     "doc": "doc",

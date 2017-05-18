@@ -1,3 +1,7 @@
+# 3.0.0 (2017-05-18)
+* **Added** exposed padding to gauge
+
+
 # 2.2.1 (2017-05-18)
 * **Added** more observers to arc
 
