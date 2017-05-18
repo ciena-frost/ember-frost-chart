@@ -1,8 +1,30 @@
-<svg height='{{size}}' width='{{size}}' viewPort='0 0 {{size}} {{size}}' version='1.1' xmlns='http://www.w3.org/2000/svg'>
-  <circle fill='transparent' class='track' cx={{center}} cy={{center}} r={{radius}} stroke-dasharray='{{circumference}}'></circle>
+<svg
+  height='{{size}}'
+  width='{{size}}'
+  viewPort='0 0 {{size}} {{size}}'
+  version='1.1'
+  xmlns='http://www.w3.org/2000/svg'>
+  <circle
+    fill='transparent'
+    class='track'
+    cx={{center}}
+    cy={{center}}
+    r={{radius}}
+    stroke-dasharray='{{circumference}}'>
+  </circle>
   {{#if arcs}}
     {{#each arcs as |arc|}}
-      <circle transform='{{arc.transform}}' stroke='{{arc.color}}' fill='transparent' class='fill {{arc.class}}' cx={{center}} cy={{center}} r={{radius}} stroke-dasharray='{{circumference}}' stroke-dashoffset='{{arc.offset}}'></circle>
+      <circle
+        transform='{{arc.transform}}'
+        stroke='{{arc.color}}'
+        fill='transparent'
+        class='fill {{arc.class}}'
+        cx={{center}}
+        cy={{center}}
+        r={{radius}}
+        stroke-dasharray='{{circumference}}'
+        stroke-dashoffset='{{arc.offset}}'>
+      </circle>
     {{/each}}
   {{/if}}
 </svg>

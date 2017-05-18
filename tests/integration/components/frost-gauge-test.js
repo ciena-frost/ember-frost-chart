@@ -52,9 +52,6 @@ describe(test.label, function () {
         orientation=0
         direction='clockwise'
         data=data
-        min=0
-        max=100
-        size=150
         text='My Gauge'}}
     `)
 

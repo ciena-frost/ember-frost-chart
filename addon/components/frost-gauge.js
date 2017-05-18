@@ -21,10 +21,10 @@ export default Component.extend({
   // == PropTypes =============================================================
 
   propTypes: {
-    // required
+    // Required
     data: PropTypes.arrayOf(PropTypes.object).isRequired,
 
-    // options
+    // Options
     direction: PropTypes.oneOf(['clockwise', 'counterclockwise']),
     max: PropTypes.number,
     min: PropTypes.number,
@@ -33,35 +33,34 @@ export default Component.extend({
     negativeLabel: PropTypes.string,
     orientation: PropTypes.number,
     size: PropTypes.number,
-    text: PropTypes.string
+    text: PropTypes.string,
+
+    // State
+    _padding: 10
   },
 
   getDefaultProps () {
     return {
-      data: [],
+      // Options
       direction: 'clockwise',
-      orientation: 0,
       min: 0,
       negativeColor: '#ffffff',
       negativeClass: 'negative-value',
       negativeLabel: '',
+      orientation: 0,
       size: 150,
+
+      // State
       _padding: 10
     }
   },
 
-  initialize () {
-    return {
-      data: []
-    }
-  },
   // == Computed Properties ===================================================
 
   @readOnly
   @computed('orientation', 'direction')
   arcs (orientation, direction) {
     const circumference = this.get('circumference')
-    // const max = parseInt(this.get('max'), 10)
     const max = parseInt(this.get('maxRange'), 10)
     const min = parseInt(this.get('min'), 10)
     let rotationOffset = 0
@@ -121,9 +120,6 @@ export default Component.extend({
     return radius * 2
   },
 
-  /*
-    Potential future enhancements to show % of guage filled up by default if no text is provided
-  */
   @readOnly
   @computed('text')
   displayText (text) {
@@ -204,12 +200,12 @@ export default Component.extend({
     const size = this.get('size')
     const orientation = this.get('orientation')
     const center = this.get('center')
-    const rotation = `rotate(${orientation + orientationOffset - 90} ${center} ${center}`
+    const rotation = `rotate(${orientation + orientationOffset - 90} ${center} ${center})`
     const scale = this.get('transformScale')
     let translate = ''
     if (directions.COUNTERCLOCKWISE === direction) {
-      translate = `translate(${size}, 0)`
+      translate = `translate(${size}, 0) `
     }
-    return `${translate} ${scale} ${rotation})`
+    return `${translate}${scale} ${rotation}`
   }
 })
