@@ -1,3 +1,7 @@
+# 2.1.0 (2017-05-18)
+Added guage
+
+
 # 2.0.1 (2017-05-16)
 * **Fixed** issue with NaN coordinate in `frost-chart-axis-tick-svg`
 
