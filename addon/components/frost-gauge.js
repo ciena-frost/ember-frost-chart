@@ -32,11 +32,9 @@ export default Component.extend({
     negativeClass: PropTypes.string,
     negativeLabel: PropTypes.string,
     orientation: PropTypes.number,
+    padding: PropTypes.number,
     size: PropTypes.number,
-    text: PropTypes.string,
-
-    // State
-    _padding: 10
+    text: PropTypes.string
   },
 
   getDefaultProps () {
@@ -48,10 +46,8 @@ export default Component.extend({
       negativeClass: 'negative-value',
       negativeLabel: '',
       orientation: 0,
-      size: 150,
-
-      // State
-      _padding: 10
+      padding: 10,
+      size: 150
     }
   },
 
@@ -160,7 +156,7 @@ export default Component.extend({
   @readOnly
   @computed('size')
   radius (size) {
-    return (parseInt(size, 10) - this.get('_padding') * 2) / 2
+    return (parseInt(size, 10) - this.get('padding') * 2) / 2
   },
 
   @readOnly
