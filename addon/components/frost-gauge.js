@@ -58,14 +58,14 @@ export default Component.extend({
   // == Computed Properties ===================================================
 
   @readOnly
-  @computed('orientation', 'direction')
-  arcs (orientation, direction) {
+  @computed('orientation', 'direction', 'maxRange', 'negativeValue')
+  arcs (orientation, direction, maxRange, negativeValue) {
     const circumference = this.get('circumference')
-    const max = parseInt(this.get('maxRange'), 10)
+    const max = parseInt(maxRange, 10)
     const min = parseInt(this.get('min'), 10)
     let rotationOffset = 0
     const dataSlice = this.get('data').slice()
-    if (isPresent(this.get('negativeValue'))) {
+    if (isPresent(negativeValue)) {
       const negativeData = {
         value: this.get('negativeValue'),
         color: this.get('negativeColor'),
@@ -105,7 +105,7 @@ export default Component.extend({
   },
 
   @readOnly
-  @computed('data.@each')
+  @computed('data.@each.value')
   dataValueTotal (data) {
     let dataValueTotal = 0
     data.forEach((item) => {
