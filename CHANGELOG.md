@@ -1,3 +1,7 @@
+# 3.0.1 (2017-05-23)
+* **Added** sanitize item values
+
+
 # 3.0.0 (2017-05-18)
 * **Added** exposed padding to gauge
 
