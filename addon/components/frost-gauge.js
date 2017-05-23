@@ -105,7 +105,7 @@ export default Component.extend({
   dataValueTotal (data) {
     let dataValueTotal = 0
     data.forEach((item) => {
-      dataValueTotal += item.value
+      dataValueTotal += parseInt(item.value, 10)
     })
     return dataValueTotal
   },
