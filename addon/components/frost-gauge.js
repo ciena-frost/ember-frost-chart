@@ -57,21 +57,22 @@ export default Component.extend({
   @computed('orientation', 'direction', 'maxRange', 'negativeValue')
   arcs (orientation, direction, maxRange, negativeValue) {
     const circumference = this.get('circumference')
-    const max = parseInt(maxRange, 10)
-    const min = parseInt(this.get('min'), 10)
+    const max = parseInt(maxRange)
+    const min = parseInt(this.get('min'))
     let rotationOffset = 0
-    const dataSlice = this.get('data').slice()
+    // this will handle the case where all data is the minimum and has nothing to show
+    const dataSlice = this.get('dataValueTotal') === min ? [] : this.get('data').slice()
     if (isPresent(negativeValue)) {
       const negativeData = {
         value: this.get('negativeValue'),
         color: this.get('negativeColor'),
-        class: this.get('negativeClass'),
+        class: `${this.get('css')}-${this.get('negativeClass')}`,
         label: this.get('nevativeLabel')
       }
       dataSlice.push(negativeData)
     }
     const transformList = dataSlice.map((item, index) => {
-      const value = parseInt(item.value, 10)
+      const value = parseInt(item.value)
       const percent = this.getPercent(max, min, value)
       const offset = (1 - percent) * circumference
       const transform = this.getTransform(rotationOffset)
@@ -85,6 +86,7 @@ export default Component.extend({
         class: item.class
       })
     })
+
     return transformList
   },
 
@@ -105,7 +107,7 @@ export default Component.extend({
   dataValueTotal (data) {
     let dataValueTotal = 0
     data.forEach((item) => {
-      dataValueTotal += parseInt(item.value, 10)
+      dataValueTotal += parseInt(item.value)
     })
     return dataValueTotal
   },
@@ -138,8 +140,8 @@ export default Component.extend({
   @computed('max', 'dataValueTotal')
   negativeValue (max, dataValueTotal) {
     if (isPresent(max)) {
-      const _max = parseInt(max, 10)
-      const _dataValueTotal = parseInt(dataValueTotal, 10)
+      const _max = parseInt(max)
+      const _dataValueTotal = parseInt(dataValueTotal)
       if (_dataValueTotal <= _max) {
         return _max - _dataValueTotal
       }
@@ -156,7 +158,7 @@ export default Component.extend({
   @readOnly
   @computed('size')
   radius (size) {
-    return (parseInt(size, 10) - this.get('padding') * 2) / 2
+    return (parseInt(size) - this.get('padding') * 2) / 2
   },
 
   @readOnly

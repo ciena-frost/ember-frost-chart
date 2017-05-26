@@ -55,7 +55,39 @@ describe(test.label, function () {
         text='My Gauge'}}
     `)
 
-    expect(this.$('.frost-gauge .fill').length).to.eql(data.length)
+    expect(this.$('.frost-gauge-fill').length).to.eql(data.length)
+
+    expect(this.$('.frost-gauge-text').html()).to.eql('My Gauge')
+  })
+
+  it('all data with value 0', function () {
+    const data = [
+      {
+        value: 0,
+        color: '#00aaff',
+        class: 'first'
+      },
+      {
+        value: 0,
+        color: '#00ddff',
+        class: 'second'
+      }
+    ]
+
+    this.setProperties({
+      data
+    })
+
+    this.render(hbs`
+      {{frost-gauge
+        hook='myGauge'
+        orientation=0
+        direction='clockwise'
+        data=data
+        text='My Gauge'}}
+    `)
+
+    expect(this.$('.frost-gauge-fill').length).to.eql(0)
 
     expect(this.$('.frost-gauge-text').html()).to.eql('My Gauge')
   })
