@@ -10,13 +10,13 @@
     text-align: center;
   }
 
-  .track {
+  .frost-gauge-track {
     stroke: $frost-color-lgrey-1;
     stroke-width: 10px;
     stroke-dashoffset: 0;
   }
 
-  .fill {
+  .frost-gauge-fill {
     stroke-width: 3px;
   }
 }
