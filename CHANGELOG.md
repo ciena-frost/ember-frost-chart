@@ -1,3 +1,8 @@
+# 4.0.0 (2017-05-26)
+* **Added** Use case where all values are the minimum (typically 0) for the data
+* **Added** Added more verbose class names
+
+
 # 3.0.2 (2017-05-25)
 * Fixes https://github.com/ciena-frost/ember-frost-chart/issues/15
 
