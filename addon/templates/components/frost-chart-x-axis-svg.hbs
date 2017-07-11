@@ -6,7 +6,7 @@
     {{#frost-chart-axis-tick-svg
       axis=_axis
       coordinate=tick.coordinate
-      dispatch=dispatch
+      dispatch=(action '_dispatchTickRendered')
       hook=(concat hookPrefix '-tick')
       hookQualifiers=(hash
         index=tick.index

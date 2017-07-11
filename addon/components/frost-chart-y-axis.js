@@ -3,7 +3,7 @@
 */
 
 import Ember from 'ember'
-const {String: EmberString, assign, get, run} = Ember
+const {String: EmberString, assign, get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
 import {linearTicks} from '../helpers/linear-ticks'
@@ -42,7 +42,8 @@ export default Component.extend({
       ticks: linearTicks([10]),
 
       // state
-      _axis: 'y'
+      _axis: 'y',
+      _numberOfTickRendered: 0
     }
   },
 
@@ -118,15 +119,22 @@ export default Component.extend({
 
   init () {
     this._super(...arguments)
-    this.attrs.dispatch({
+    this.dispatch({
       type: 'REGISTER_AXIS'
     })
   },
 
-  didInsertElement () {
-    this._super(...arguments)
-    run.scheduleOnce('afterRender', this, this._dispatchRenderedAxis)
-  }
-
   // == Actions ===============================================================
+  actions: {
+    _dispatchTickRendered (action) {
+      this.dispatch(action)
+
+      const numberOfTickRendered = this.get('_numberOfTickRendered') + 1
+      this.set('_numberOfTickRendered', numberOfTickRendered)
+
+      if (numberOfTickRendered >= this.get('_ticks').length) {
+        this._dispatchRenderedAxis()
+      }
+    }
+  }
 })
