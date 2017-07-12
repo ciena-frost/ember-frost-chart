@@ -129,10 +129,9 @@ export default Component.extend({
     _dispatchTickRendered (action) {
       this.dispatch(action)
 
-      const numberOfTickRendered = this.get('_numberOfTickRendered') + 1
-      this.set('_numberOfTickRendered', numberOfTickRendered)
+      this.incrementProperty('_numberOfTickRendered')
 
-      if (numberOfTickRendered >= this.get('_ticks').length) {
+      if (this.get('_numberOfTickRendered') >= this.get('_ticks').length) {
         this._dispatchRenderedAxis()
       }
     }
