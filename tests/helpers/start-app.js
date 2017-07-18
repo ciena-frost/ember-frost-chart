@@ -1,6 +1,6 @@
-/* eslint-disable ember-standard/destructure */
 import Ember from 'ember'
 const {merge, run} = Ember
+
 import Application from '../../app'
 import config from '../../config/environment'
 
