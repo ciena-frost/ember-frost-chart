@@ -1,3 +1,6 @@
+# 4.0.1 (2017-07-18)
+* **Upgrade** to `ember-cli@2.12.3`
+
 # 4.0.0 (2017-05-26)
 * **Added** Use case where all values are the minimum (typically 0) for the data
 * **Added** Added more verbose class names
