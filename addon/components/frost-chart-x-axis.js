@@ -3,7 +3,7 @@
  */
 
 import Ember from 'ember'
-const {String: EmberString, assign, get, run} = Ember
+const {String: EmberString, assign, get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
 import {PropTypes} from 'ember-prop-types'
@@ -43,7 +43,8 @@ export default Component.extend({
       ticks: linearTicks([10]),
 
       // state
-      _axis: 'x'
+      _axis: 'x',
+      _numberOfTickRendered: 0
     }
   },
 
@@ -124,16 +125,21 @@ export default Component.extend({
 
   init () {
     this._super(...arguments)
-    this.attrs.dispatch({
+    this.dispatch({
       type: 'REGISTER_AXIS'
     })
   },
 
-  didInsertElement () {
-    this._super(...arguments)
-    run.scheduleOnce('afterRender', this, this._dispatchRenderedAxis)
-  }
-
   // == Actions ===============================================================
+  actions: {
+    dispatchTickRendered (action) {
+      this.dispatch(action)
 
+      this.incrementProperty('_numberOfTickRendered')
+
+      if (this.get('_numberOfTickRendered') >= this.get('_ticks').length) {
+        this._dispatchRenderedAxis()
+      }
+    }
+  }
 })
