@@ -141,7 +141,7 @@ export default Component.extend({
 
   // == Actions ===============================================================
   actions: {
-    _dispatchTickRendered (action) {
+    dispatchTickRendered (action) {
       this.dispatch(action)
 
       this.incrementProperty('_numberOfTickRendered')
