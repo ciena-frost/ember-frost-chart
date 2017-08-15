@@ -1,3 +1,6 @@
+# 4.0.3 (2017-08-15)
+* Closes ciena-frost/ember-frost-chart#29
+
 # 4.0.2 (2017-08-11)
 * Upgrade ember-cli 2.12.3 inter-dependencies
 
