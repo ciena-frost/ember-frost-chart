@@ -67,3 +67,17 @@
     stroke-width: 5px;
   }
 }
+
+.gradient-chart-path{
+  fill: url(#grad1);
+}
+
+.startGradient {
+  stop-color: $frost-color-teal-1;
+  stop-opacity: 0.1;
+}
+
+.endGradient {
+  stop-color: $frost-color-teal-1;
+  stop-opacity: 0.5;
+}
