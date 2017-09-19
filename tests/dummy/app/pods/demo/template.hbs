@@ -133,6 +133,29 @@
       </svg>
     {{/chart.svg}}
   {{/frost-chart}}
+
+  {{#frost-chart
+    class='demo-flex'
+    hook='demo-power'
+    xDomain=xDomain
+    yDomain=yDomain
+    yScale=(d3-linear-scale)
+    as |chart|
+  }}
+    {{#chart.x-axis label='Gradient Area with custom path helper' as |tick|}}
+      {{to-fixed tick 0}}
+    {{/chart.x-axis}}
+
+    {{#chart.y-axis as |tick|}}
+      {{to-fixed tick 0}}
+    {{/chart.y-axis}}
+
+    {{#chart.svg as |plot|}}
+      {{plot.x-grid}}
+      {{plot.y-grid}}
+      {{plot.area area=(gradient-area) class="gradient-chart" data=data x='x' y='y'}}
+    {{/chart.svg}}
+  {{/frost-chart}}
 </div>
 
 <div class='demo-row'>
