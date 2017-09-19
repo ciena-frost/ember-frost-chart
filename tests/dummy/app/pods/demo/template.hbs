@@ -122,15 +122,15 @@
       {{plot.x-grid}}
       {{plot.y-grid}}
 
-    <svg>
-      <defs>
+      <svg>
+        <defs>
           <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop class="startGradient" offset="30%"/>
             <stop class="endGradient" offset="100%"/>
           </linearGradient>
-      </defs>
-      {{plot.area class="gradient-chart" data=data x='x' y='y'}}
-    </svg>
+        </defs>
+        {{plot.area class="gradient-chart" data=data x='x' y='y'}}
+      </svg>
     {{/chart.svg}}
   {{/frost-chart}}
 </div>
