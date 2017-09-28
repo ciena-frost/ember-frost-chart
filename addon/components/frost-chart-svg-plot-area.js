@@ -35,6 +35,7 @@ export default Component.extend({
   getDefaultProps () {
     return {
       // options
+      css: this.get('class') || this.getComponentName()
 
       // state
     }
