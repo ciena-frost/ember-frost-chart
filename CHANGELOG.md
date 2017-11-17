@@ -1,3 +1,6 @@
+# 4.1.1 (2017-11-17)
+* #33 - Bind context to call of `this._super.included()` in index.js
+
 # 4.1.0 (2017-09-28)
 
 - Added gradient area graphs
