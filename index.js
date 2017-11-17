@@ -4,10 +4,6 @@
 module.exports = {
   name: 'ember-frost-chart',
 
-  included: function (app) {
-    this._super.included(app)
-  },
-
   init: function (app) {
     this.options = this.options || {}
     this.options.babel = this.options.babel || {}
