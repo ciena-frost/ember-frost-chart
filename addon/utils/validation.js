@@ -1,6 +1,7 @@
 import Ember from 'ember'
 const {Logger, isPresent} = Ember
 
+/* eslint-disable complexity */
 function isDomainValid (domain) {
   if (!domain) {
     return false
@@ -14,5 +15,6 @@ function isDomainValid (domain) {
 
   return isValid
 }
+/* eslint-enable complexity */
 
 export {isDomainValid}

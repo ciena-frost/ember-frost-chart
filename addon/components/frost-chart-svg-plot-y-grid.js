@@ -4,12 +4,11 @@
 
 import Ember from 'ember'
 const {get} = Ember
+import layout from '../templates/components/frost-chart-svg-plot-y-grid'
 import computed, {readOnly} from 'ember-computed-decorators'
 import {isDomainValid} from 'ember-frost-chart/utils/validation'
 import {Component} from 'ember-frost-core'
 import {PropTypes} from 'ember-prop-types'
-
-import layout from '../templates/components/frost-chart-svg-plot-y-grid'
 
 export default Component.extend({
   // == Dependencies ==========================================================

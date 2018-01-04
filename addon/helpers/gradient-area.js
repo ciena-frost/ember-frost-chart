@@ -9,8 +9,8 @@ const {Helper} = Ember
 export function gradientArea (params, {smooth = 'natural'}) {
   return function (params) {
     const _path = d3Path()
-    var minX = Math.min.apply(Math, params.points.map(function (point) { return point.x }))
-    var maxX = Math.max.apply(Math, params.points.map(function (point) { return point.x }))
+    const minX = Math.min.apply(Math, params.points.map(function (point) { return point.x }))
+    const maxX = Math.max.apply(Math, params.points.map(function (point) { return point.x }))
 
     _path.moveTo(minX, params.yRange[0])
 

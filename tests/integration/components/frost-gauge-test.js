@@ -8,7 +8,7 @@ const test = integration('frost-gauge')
 describe(test.label, function () {
   test.setup()
 
-  it('renders arc data and text', function () {
+  it('should render arc data and text', function () {
     const data = [
       {
         value: 10,
@@ -60,7 +60,7 @@ describe(test.label, function () {
     expect(this.$('.frost-gauge-text').html()).to.eql('My Gauge')
   })
 
-  it('all data with value 0', function () {
+  it('should have all data with value 0', function () {
     const data = [
       {
         value: 0,

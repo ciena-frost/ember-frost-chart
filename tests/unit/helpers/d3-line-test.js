@@ -4,9 +4,8 @@ import {describe, it} from 'mocha'
 
 describe.skip('Unit | Helper | d3 line', function () {
   // Replace this with your real tests.
-  it('works', function () {
+  it('should work', function () {
     let result = d3Line(42)
     expect(result).not.to.equal(null)
   })
 })
-

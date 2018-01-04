@@ -4,7 +4,7 @@ import {describe, it} from 'mocha'
 
 describe.skip('Unit | Utility | clamp', function () {
   // Replace this with your real tests.
-  it('works', function () {
+  it('should work', function () {
     let result = clamp()
     expect(result).not.to.equal(null)
   })
