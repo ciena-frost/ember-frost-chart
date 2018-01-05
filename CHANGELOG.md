@@ -1,3 +1,29 @@
+# 5.0.0 (2018-01-05)
+* **Added** the ignoring of linting of the `CHANGELOG.md` file
+* **Removed** useLintTree ember-cli-mocha configuration from `ember-cli-build.js`
+* **Removed** unused `ember-elsewhere` package
+* **Updated** `ember-cli-code-coverage` to `0.3.12`
+* **Removed** unused `ember-spread` package
+* **Removed** unused `ember-truth-helpers` package
+* **Updated** `ember-cli-code-snippet` to version `1.7.0`
+* **Updated** `ember-frost-test` to version `^4.0.0`
+* **Updated** `ember-cli-chai` to version `0.4.3`
+* **Updated** `ember-cli-mocha` to version `0.14.4`
+* **Updated** `ember-test-utils` to `^8.1.0`
+* **Updated** `ember-hook` to `1.4.2` and moved to dependency
+* **Updated** `ember-sinon` to `^0.7.0`
+* **Updated** `sinon-chai` to version `^2.14.0`
+* **Removed** unused `ember-cli-sri` package
+* **Updated** `ember-d3` to version `0.3.4` and move to dependency
+* **Removed** `d3` package since it is included by `ember-d3` package at correct version
+* **Updated** `ember-cli-frost-blueprints` to `^5.0.1`
+* **Updated** code coverage configuration to be in correct directory
+* **Updated** `ember-prop-types` to version `^6.0.1`
+* **Added** package-lock to the `.gitignore`files until we are ready to migrate to node 8
+* **Updated** `ember-cli-sass` to version `7.1.1`
+* **Updated** `ember-frost-core` to version `^5.0.0`
+* **Removed** installation of packages via blueprints since the packages are now being installed via dependencies
+
 # 4.1.1 (2017-11-17)
 * #33 - Bind context to call of `this._super.included()` in index.js
 
