@@ -67,8 +67,8 @@ export default Component.extend({
           })
         }),
         canvas: EmberObject.create({
-          height: null,
-          width: null
+          height: 0,
+          width: 0
         }),
         chart: EmberObject.create({
           height: null,
