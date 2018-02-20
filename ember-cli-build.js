@@ -10,7 +10,10 @@ module.exports = function (defaults) {
       includePaths: [
       ]
     },
-    snippetSearchPaths: ['tests/dummy/app']
+    snippetSearchPaths: ['tests/dummy/app'],
+    // TODO: #43 remove when d3-selection or fast-sourcemaps-concat are fixed
+    // to not break the build @jfellman 2018-02-20
+    sourcemaps: {enabled: false}
   })
 
   return app.toTree()
