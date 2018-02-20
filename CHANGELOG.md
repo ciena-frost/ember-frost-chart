@@ -1,3 +1,8 @@
+# 5.0.1 (2018-02-20)
+- #43 sourcemaps disabled until fixed in external dependencies
+- #42 changed default height and width to 0 instead of null
+
+
 # 5.0.0 (2018-01-05)
 * **Added** the ignoring of linting of the `CHANGELOG.md` file
 * **Removed** useLintTree ember-cli-mocha configuration from `ember-cli-build.js`
