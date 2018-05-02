@@ -8,7 +8,6 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
 import {linearTicks} from '../helpers/linear-ticks'
 import {PropTypes} from 'ember-prop-types'
-
 import layout from '../templates/components/frost-chart-y-axis'
 
 export default Component.extend({

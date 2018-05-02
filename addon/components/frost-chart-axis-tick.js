@@ -21,7 +21,9 @@ export default Component.extend({
   propTypes: {
     // options
     axis: PropTypes.string.isRequired,
-    coordinate: PropTypes.number
+    coordinate: PropTypes.number,
+    width: PropTypes.number,
+    height: PropTypes.number
 
     // state
   },
@@ -38,8 +40,8 @@ export default Component.extend({
   // == Computed Properties ===================================================
 
   @readOnly
-  @computed('coordinate')
-  style (coordinate) {
+  @computed('coordinate', 'width', 'height')
+  style (coordinate, width, height) {
     if (isNone(coordinate)) {
       return EmberString.htmlSafe('')
     }
@@ -48,12 +50,12 @@ export default Component.extend({
     if (this.get('axis') === 'x') {
       return EmberString.htmlSafe(`
         position: absolute;
-        left: calc(${coordinate}px - ${this.$().outerWidth()}px / 2);
+        left: calc(${coordinate}px - ${width}px / 2);
       `)
     } else {
       return EmberString.htmlSafe(`
         position: absolute;
-        top: calc(${coordinate}px - ${this.$().outerHeight()}px / 2);
+        top: calc(${coordinate}px - ${height}px / 2);
       `)
     }
   },
@@ -61,12 +63,20 @@ export default Component.extend({
   // == Functions =============================================================
 
   _dispatchRenderedTick () {
+    const width = this.$().outerWidth()
+    const height = this.$().outerHeight()
+
+    this.setProperties({
+      width,
+      height
+    })
+
     this.dispatch({
       type: 'RENDERED_TICK',
       axis: this.get('axis'),
       tick: {
-        height: this.$().outerHeight(true),
-        width: this.$().outerWidth(true)
+        height,
+        width
       }
     })
   },

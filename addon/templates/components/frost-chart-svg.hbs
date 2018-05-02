@@ -15,6 +15,12 @@
         hook=(concat hookPrefix '-bar')
       )
 
+      stacked-bar=(component 'frost-chart-svg-plot-stacked-bar'
+        bar=(vertical-bar)
+        chartState=chartState
+        hook=(concat hookPrefix '-stacked-bar')
+      )
+
       x-grid=(component 'frost-chart-svg-plot-x-grid'
         chartState=chartState
         hook=(concat hookPrefix '-xGrid')
