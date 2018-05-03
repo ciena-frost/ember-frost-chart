@@ -2,17 +2,7 @@ import {stack as d3Stack} from 'd3-shape'
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
 import {PropTypes} from 'ember-prop-types'
-
 import layout from '../templates/components/frost-chart-svg-plot-stacked-bar'
-
-const defaultSeriesColors = [
-  '#009eef',
-  '#a183db',
-  '#009999',
-  '#a1e7ff',
-  '#e8dffb',
-  '#9aefea'
-]
 
 export default Component.extend({
 
@@ -40,7 +30,14 @@ export default Component.extend({
   getDefaultProps () {
     return {
       // options
-      seriesColors: defaultSeriesColors
+      seriesColors: [
+        '#009eef',
+        '#a183db',
+        '#009999',
+        '#a1e7ff',
+        '#e8dffb',
+        '#9aefea'
+      ]
 
       // state
     }
