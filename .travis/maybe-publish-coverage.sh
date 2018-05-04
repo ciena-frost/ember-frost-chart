@@ -8,7 +8,7 @@ then
   exit 0
 fi
 
-if [[ ! "${PUBLISH_NODE_VERSION:-8.1.2}" =~ ^$TRAVIS_NODE_VERSION ]]
+if [[ ! "${PUBLISH_NODE_VERSION:-8.6.0}" =~ ^$TRAVIS_NODE_VERSION ]]
 then
   echo "Skipping pr-bumper coverage publish step for TRAVIS_NODE_VERSION [${TRAVIS_NODE_VERSION}]"
   exit 0
