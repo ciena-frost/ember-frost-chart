@@ -3,13 +3,13 @@
  */
 
 import Ember from 'ember'
-const {String: EmberString, assign, get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
 import {PropTypes} from 'ember-prop-types'
 import {linearTicks} from '../helpers/linear-ticks'
-
 import layout from '../templates/components/frost-chart-x-axis'
+
+const {String: EmberString, assign, get, isPresent} = Ember
 
 export default Component.extend({
 
@@ -61,8 +61,8 @@ export default Component.extend({
   },
 
   @readOnly
-  @computed('_ticks', 'chartState.range.x', 'chartState.domain.x')
-  _positionedTicks (ticks, range, domain) {
+  @computed('_ticks', 'chartState.range.x', 'chartState.domain.x', '_tickOffset')
+  _positionedTicks (ticks, range, domain, tickOffset) {
     if (!range || !domain) {
       return ticks
     }
@@ -72,7 +72,7 @@ export default Component.extend({
 
     return ticks.map(tick => {
       return assign({}, tick, {
-        coordinate: transform(get(tick, 'value'))
+        coordinate: transform(get(tick, 'value')) + tickOffset
       })
     })
   },
@@ -104,6 +104,16 @@ export default Component.extend({
   @computed('chartState.axes.x.tickHeight')
   _tickHeight (tickHeight) {
     return EmberString.htmlSafe(`height: ${tickHeight}px;`)
+  },
+
+  @readOnly
+  @computed('chartState.scale.x', 'chartState.domain.x', 'chartState.range.x')
+  _tickOffset (scale, domain, range) {
+    if (!isPresent(scale) || !isPresent(domain) || !isPresent(range)) {
+      return 0
+    }
+    const transform = scale({domain, range})
+    return isPresent(transform.bandwidth) ? transform.bandwidth() / 2 : 0
   },
 
   // == Functions =============================================================

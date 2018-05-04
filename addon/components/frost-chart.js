@@ -23,7 +23,10 @@ export default Component.extend({
 
   propTypes: {
     // options
-    xDomain: PropTypes.arrayOf(PropTypes.number).isRequired,
+    xDomain: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.number),
+      PropTypes.arrayOf(PropTypes.string)
+    ]).isRequired,
     xRange: PropTypes.arrayOf(PropTypes.number),
     xScale: PropTypes.func,
     yDomain: PropTypes.arrayOf(PropTypes.number).isRequired,

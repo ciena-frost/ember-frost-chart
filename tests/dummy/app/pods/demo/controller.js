@@ -41,15 +41,46 @@ export default Controller.extend({
   },
 
   @readOnly
+  @computed
+  dataOrdinal () {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    return A(months.map((month) => {
+      return {
+        month,
+        a: Math.floor(Math.random() * 10),
+        b: Math.floor(Math.random() * 10),
+        c: Math.floor(Math.random() * 10),
+        d: Math.floor(Math.random() * 10)
+      }
+    }))
+  },
+
+  @readOnly
   @computed('data')
   xDomain (data) {
     return extent(data.mapBy('x'))
   },
 
   @readOnly
+  @computed('dataOrdinal')
+  xDomainOrdinal (data) {
+    return data.map(d => d.month)
+  },
+
+  @readOnly
   @computed('data')
   yDomain (data) {
     return extent(data.mapBy('y'))
+  },
+
+  @readOnly
+  @computed('dataOrdinal')
+  yDomainOrdinal (dataOrdinal) {
+    let max = dataOrdinal.reduce((max, {a, b, c, d}) => {
+      const sum = a + b + c + d
+      return sum > max ? sum : max
+    }, 0)
+    return [0, max]
   },
 
   arcData: [
