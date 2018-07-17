@@ -3,7 +3,6 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
 import {PropTypes} from 'ember-prop-types'
 import layout from '../templates/components/frost-chart-svg-plot-stacked-bar'
-import getTransformedX from 'ember-frost-chart/utils/transform'
 
 export default Component.extend({
 
@@ -48,10 +47,8 @@ export default Component.extend({
 
   @readOnly
   @computed('data.[]', 'x', 'chartState.range.x', 'chartState.range.y',
-    'chartState.domain.x', 'chartState.domain.y', 'seriesKeys', 'seriesColors',
-    'chartState.axes.y.{ticksAboveLines,tickLabelWidth,padding}')
-  _bars (data, xProp, xRange, yRange, xDomain, yDomain, seriesKeys, seriesColors,
-    yAxisTicksAboveLines, yTickLabelWidth, yAxisPadding) {
+    'chartState.domain.x', 'chartState.domain.y', 'seriesKeys', 'seriesColors')
+  _bars (data, xProp, xRange, yRange, xDomain, yDomain, seriesKeys, seriesColors) {
     if (!xRange || !yRange || !xDomain || !yDomain) {
       return []
     }
@@ -68,7 +65,7 @@ export default Component.extend({
     return stackedData.reduce((arr, layer, index) => {
       return arr.concat(layer.map(entry => {
         return {
-          x: getTransformedX(entry.data[xProp], xTransform, yAxisTicksAboveLines, yTickLabelWidth, yAxisPadding),
+          x: xTransform(entry.data[xProp]),
           y: yTransform(entry[1]),
           width: xTransform.bandwidth(),
           height: yTransform(entry[0]) - yTransform(entry[1]),

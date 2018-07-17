@@ -8,7 +8,6 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
 import {PropTypes} from 'ember-prop-types'
 import layout from '../templates/components/frost-chart-svg-plot-scatter'
-import getTransformedX from 'ember-frost-chart/utils/transform'
 
 export default Component.extend({
 
@@ -42,9 +41,8 @@ export default Component.extend({
   // == Computed Properties ===================================================
 
   @readOnly
-  @computed('data.[]', 'chartState.range.x', 'chartState.range.y', 'chartState.domain.x', 'chartState.domain.y',
-    'chartState.axes.y.{ticksAboveLines,tickLabelWidth,padding}')
-  _points (data, xRange, yRange, xDomain, yDomain, yAxisTicksAboveLines, yTickLabelWidth, yAxisPadding) {
+  @computed('data.[]', 'chartState.range.x', 'chartState.range.y', 'chartState.domain.x', 'chartState.domain.y')
+  _points (data, xRange, yRange, xDomain, yDomain) {
     if (!xRange || !yRange || !xDomain || !yDomain) {
       return []
     }
@@ -58,7 +56,7 @@ export default Component.extend({
     return data.map((entry, index) => {
       return {
         index,
-        x: getTransformedX(get(entry, this.x), xTransform, yAxisTicksAboveLines, yTickLabelWidth, yAxisPadding),
+        x: xTransform(get(entry, this.x)),
         y: yTransform(get(entry, this.y))
       }
     })

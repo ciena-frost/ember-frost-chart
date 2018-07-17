@@ -4,14 +4,11 @@
 
 import {path as d3path} from 'd3-path'
 import curves from 'd3-shape'
-import getTransformedX from 'ember-frost-chart/utils/transform'
 import Ember from 'ember'
 const {A, Helper, String: EmberString, get} = Ember
 
 export function lineBoundedArea (params, {smooth = 'basis', x = 'x', y = 'y'}) {
-  return function ({
-    boundingData, points, xRange, xTransform, yRange, yTransform, yAxisTicksAboveLines, yTickLabelWidth, yAxisPadding
-  }) {
+  return function ({boundingData, points, xRange, xTransform, yRange, yTransform}) {
     // Create the path
     const _path = d3path()
 
@@ -25,7 +22,7 @@ export function lineBoundedArea (params, {smooth = 'basis', x = 'x', y = 'y'}) {
 
     const boundingPoints = A(boundingData.map(entry => {
       return {
-        x: getTransformedX(get(entry, x), xTransform, yAxisTicksAboveLines, yTickLabelWidth, yAxisPadding),
+        x: xTransform(get(entry, x)),
         y: yTransform(get(entry, y))
       }
     })).sortBy('x', 'y').reverse()
