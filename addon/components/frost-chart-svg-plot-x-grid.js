@@ -23,7 +23,8 @@ export default Component.extend({
   propTypes: {
     // options
     chartState: PropTypes.EmberObject.isRequired,
-    ticks: PropTypes.func.isRequired
+    ticks: PropTypes.func.isRequired,
+    axesOnly: PropTypes.bool
 
     // state
   },
