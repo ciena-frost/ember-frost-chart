@@ -42,6 +42,7 @@ export default Component.extend({
       // options
       xScale: linearScale(),
       yScale: linearScale(),
+      yAxisPadding: 0,
 
       // state
       _chartState: EmberObject.create({
@@ -217,7 +218,7 @@ export default Component.extend({
     }
   },
 
-  _setupYAxis ({alignment, height, width}) {
+  _setupYAxis ({alignment, height, width, tickLabelWidth}) {
     const renderedTicks = this.get('_chartState.axes.y.renderedTicks')
     const firstTickMargin = renderedTicks.get('firstObject.height') / 2
     const lastTickMargin = renderedTicks.get('lastObject.height') / 2
@@ -227,7 +228,8 @@ export default Component.extend({
       firstTickMargin,
       height: height - firstTickMargin - lastTickMargin,
       lastTickMargin,
-      width
+      width,
+      tickLabelWidth
     })
 
     this.incrementProperty('_chartState.axes.rendered')

@@ -7,6 +7,8 @@
         area=(range-bounded-area)
         chartState=chartState
         hook=(concat hookPrefix '-area')
+        yAxisPadding=yAxisPadding
+        yAxisTicksOnLines=yAxisTicksOnLines
       )
 
       bar=(component 'frost-chart-svg-plot-bar'
@@ -25,12 +27,16 @@
         chartState=chartState
         hook=(concat hookPrefix '-xGrid')
         ticks=(linear-ticks 10)
+        yAxisPadding=yAxisPadding
+        yAxisTicksOnLines=yAxisTicksOnLines
       )
 
       y-grid=(component 'frost-chart-svg-plot-y-grid'
         chartState=chartState
         hook=(concat hookPrefix '-yGrid')
         ticks=(linear-ticks 10)
+        yAxisPadding=yAxisPadding
+        yAxisTicksOnLines=yAxisTicksOnLines
       )
 
       line=(component 'frost-chart-svg-plot-line'

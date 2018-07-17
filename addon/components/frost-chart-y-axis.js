@@ -102,12 +102,21 @@ export default Component.extend({
   // == Functions =============================================================
 
   _dispatchRenderedAxis () {
+    const outerWidth = this.$().outerWidth(true)
+    const tickLabelWidth = this.$('.frost-chart-y-axis-ticks').outerWidth(true)
+    let width = outerWidth + this.get('yAxisPadding')
+
+    if (this.get('yAxisTicksOnLines')) {
+      width = outerWidth - tickLabelWidth
+    }
+
     this.dispatch({
       type: 'RENDERED_Y_AXIS',
       axis: {
         alignment: this.get('alignment'),
         height: this.$().outerHeight(true),
-        width: this.$().outerWidth(true)
+        width,
+        tickLabelWidth
       }
     })
   },
