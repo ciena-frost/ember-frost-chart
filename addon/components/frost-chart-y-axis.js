@@ -106,7 +106,7 @@ export default Component.extend({
     const tickLabelWidth = this.$('.frost-chart-y-axis-ticks').outerWidth(true)
     let width = outerWidth + this.get('chartState.axes.y.padding')
 
-    if (this.get('chartState.axes.y.ticksOnLines')) {
+    if (this.get('chartState.axes.y.ticksAboveLines')) {
       width = outerWidth - tickLabelWidth
     }
 

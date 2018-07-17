@@ -44,8 +44,8 @@ export default Component.extend({
 
   @readOnly
   @computed('data.[]', 'x', 'y', 'chartState.range.x', 'chartState.range.y', 'chartState.domain.x',
-    'chartState.domain.y')
-  _path (data, x, y, xRange, yRange, xDomain, yDomain) {
+    'chartState.domain.y', 'chartState.axes.y.{ticksAboveLines,tickLabelWidth,padding}')
+  _path (data, x, y, xRange, yRange, xDomain, yDomain, yAxisTicksAboveLines, yTickLabelWidth, yAxisPadding) {
     if (!xRange || !yRange || !xDomain || !yDomain) {
       return []
     }
@@ -57,8 +57,9 @@ export default Component.extend({
     const yTransform = yScale({domain: yDomain, range: yRange})
 
     const points = A(data.map(entry => {
+      const transformedX = xTransform(get(entry, x))
       return {
-        x: xTransform(get(entry, x)),
+        x: yAxisTicksAboveLines ? transformedX + yTickLabelWidth + yAxisPadding : transformedX,
         y: yTransform(get(entry, y))
       }
     })).sortBy('x', 'y')

@@ -23,7 +23,8 @@ export default Component.extend({
     axis: PropTypes.string.isRequired,
     coordinate: PropTypes.number,
     width: PropTypes.number,
-    height: PropTypes.number
+    height: PropTypes.number,
+    ticksAboveLines: PropTypes.bool
 
     // state
   },
@@ -40,8 +41,8 @@ export default Component.extend({
   // == Computed Properties ===================================================
 
   @readOnly
-  @computed('coordinate', 'width', 'height')
-  style (coordinate, width, height) {
+  @computed('coordinate', 'width', 'height', 'ticksAboveLines')
+  style (coordinate, width, height, ticksAboveLines) {
     if (isNone(coordinate)) {
       return EmberString.htmlSafe('')
     }
@@ -55,7 +56,7 @@ export default Component.extend({
     } else {
       return EmberString.htmlSafe(`
         position: absolute;
-        top: calc(${coordinate}px - ${height}px / 2);
+        top: calc(${coordinate}px - ${ticksAboveLines ? height : height / 2}px);
       `)
     }
   },

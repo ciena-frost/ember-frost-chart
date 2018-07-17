@@ -42,8 +42,9 @@ export default Component.extend({
   // == Computed Properties ===================================================
 
   @readOnly
-  @computed('data.[]', 'chartState.range.x', 'chartState.range.y', 'chartState.domain.x', 'chartState.domain.y')
-  _points (data, xRange, yRange, xDomain, yDomain) {
+  @computed('data.[]', 'chartState.range.x', 'chartState.range.y', 'chartState.domain.x', 'chartState.domain.y',
+    'chartState.axes.y.{ticksAboveLines,tickLabelWidth,padding}')
+  _points (data, xRange, yRange, xDomain, yDomain, yAxisTicksAboveLines, yTickLabelWidth, yAxisPadding) {
     if (!xRange || !yRange || !xDomain || !yDomain) {
       return []
     }
@@ -55,9 +56,10 @@ export default Component.extend({
     const yTransform = yScale({domain: yDomain, range: yRange})
 
     return data.map((entry, index) => {
+      const transformedX = xTransform(get(entry, this.x))
       return {
         index,
-        x: xTransform(get(entry, this.x)),
+        x: yAxisTicksAboveLines ? transformedX + yTickLabelWidth + yAxisPadding : transformedX,
         y: yTransform(get(entry, this.y))
       }
     })

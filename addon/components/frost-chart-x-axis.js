@@ -79,9 +79,9 @@ export default Component.extend({
 
   @readOnly
   @computed('chartState.axes.initialized', 'chartState.chart.width',
-    'chartState.axes.y.{ticksOnLines,tickLabelWidth,padding}')
+    'chartState.axes.y.{ticksAboveLines,tickLabelWidth,padding}')
   /* eslint complexity: [2, 7] */
-  style (initializedAxes, chartWidth, yAxisTicksOnLines, tickLabelWidth, yAxisPadding) {
+  style (initializedAxes, chartWidth, yAxisTicksAboveLines, tickLabelWidth, yAxisPadding) {
     if (!initializedAxes || !chartWidth) {
       return EmberString.htmlSafe('')
     }
@@ -93,7 +93,7 @@ export default Component.extend({
     const xAxisFirstTickMargin = this.get('chartState.axes.x.firstTickMargin')
     const xAxisLastTickMargin = this.get('chartState.axes.x.lastTickMargin')
     const yAxisMargin = yAxisAlignment === 'left' ? yAxisWidth : xAxisFirstTickMargin
-    const leftMargin = yAxisTicksOnLines ? yAxisMargin + tickLabelWidth : yAxisMargin
+    const leftMargin = yAxisTicksAboveLines ? yAxisMargin + tickLabelWidth : yAxisMargin
 
     return EmberString.htmlSafe(`
       ${xAxisAlignment}: ${get(chartPadding, xAxisAlignment)}px;

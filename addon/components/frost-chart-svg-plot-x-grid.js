@@ -40,8 +40,8 @@ export default Component.extend({
 
   @readOnly
   @computed('chartState.range.x', 'chartState.range.y', 'chartState.domain.x', 'startOnly',
-    'chartState.axes.y.{ticksOnLines,tickLabelWidth,padding}')
-  _ticks (xRange, yRange, xDomain, startOnly, yAxisTicksOnLines, yTickLabelWidth, yAxisPadding) {
+    'chartState.axes.y.{ticksAboveLines,tickLabelWidth,padding}')
+  _ticks (xRange, yRange, xDomain, startOnly, yAxisTicksAboveLines, yTickLabelWidth, yAxisPadding) {
     if (!xRange || !yRange || !isDomainValid(xDomain)) {
       return []
     }
@@ -53,7 +53,7 @@ export default Component.extend({
     const ticksmap = ticks.map(tick => {
       const transformedX = xTransform(get(tick, 'value'))
       return {
-        x: yAxisTicksOnLines ? transformedX + yTickLabelWidth + yAxisPadding : transformedX,
+        x: yAxisTicksAboveLines ? transformedX + yTickLabelWidth + yAxisPadding : transformedX,
         y: yRange[0]
       }
     })

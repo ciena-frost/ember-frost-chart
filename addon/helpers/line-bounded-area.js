@@ -8,7 +8,9 @@ import Ember from 'ember'
 const {A, Helper, String: EmberString, get} = Ember
 
 export function lineBoundedArea (params, {smooth = 'basis', x = 'x', y = 'y'}) {
-  return function ({boundingData, points, xRange, xTransform, yRange, yTransform}) {
+  return function ({
+    boundingData, points, xRange, xTransform, yRange, yTransform, yAxisTicksAboveLines, yTickLabelWidth, yAxisPadding
+  }) {
     // Create the path
     const _path = d3path()
 
@@ -21,8 +23,9 @@ export function lineBoundedArea (params, {smooth = 'basis', x = 'x', y = 'y'}) {
     curve.lineEnd()
 
     const boundingPoints = A(boundingData.map(entry => {
+      const transformedX = xTransform(get(entry, x))
       return {
-        x: xTransform(get(entry, x)),
+        x: yAxisTicksAboveLines ? transformedX + yTickLabelWidth + yAxisPadding : transformedX,
         y: yTransform(get(entry, y))
       }
     })).sortBy('x', 'y').reverse()

@@ -45,8 +45,8 @@ export default Component.extend({
 
   @readOnly
   @computed('boundingData.[]', 'data.[]', 'chartState.range.x', 'chartState.range.y', 'chartState.domain.x',
-    'chartState.domain.y', 'chartState.axes.y.{ticksOnLines,tickLabelWidth,padding}')
-  _path (boundingData, data, xRange, yRange, xDomain, yDomain, yAxisTicksOnLines, yTickLabelWidth, yAxisPadding) {
+    'chartState.domain.y', 'chartState.axes.y.{ticksAboveLines,tickLabelWidth,padding}')
+  _path (boundingData, data, xRange, yRange, xDomain, yDomain, yAxisTicksAboveLines, yTickLabelWidth, yAxisPadding) {
     if (!xRange || !yRange || !xDomain || !yDomain) {
       return []
     }
@@ -60,12 +60,14 @@ export default Component.extend({
     const points = A(data.map(entry => {
       const transformedX = xTransform(get(entry, this.x))
       return {
-        x: yAxisTicksOnLines ? transformedX + yTickLabelWidth + yAxisPadding : transformedX,
+        x: yAxisTicksAboveLines ? transformedX + yTickLabelWidth + yAxisPadding : transformedX,
         y: yTransform(get(entry, this.y))
       }
     })).sortBy('x', 'y')
 
-    return this.area({boundingData, points, xRange, xTransform, yRange, yTransform})
+    return this.area({
+      boundingData, points, xRange, xTransform, yRange, yTransform, yAxisTicksAboveLines, yTickLabelWidth, yAxisPadding
+    })
   }
 
   // == Functions =============================================================

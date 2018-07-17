@@ -47,8 +47,10 @@ export default Component.extend({
 
   @readOnly
   @computed('data.[]', 'x', 'chartState.range.x', 'chartState.range.y',
-    'chartState.domain.x', 'chartState.domain.y', 'seriesKeys', 'seriesColors')
-  _bars (data, xProp, xRange, yRange, xDomain, yDomain, seriesKeys, seriesColors) {
+    'chartState.domain.x', 'chartState.domain.y', 'seriesKeys', 'seriesColors',
+    'chartState.axes.y.{ticksAboveLines,tickLabelWidth,padding}')
+  _bars (data, xProp, xRange, yRange, xDomain, yDomain, seriesKeys, seriesColors,
+    yAxisTicksAboveLines, yTickLabelWidth, yAxisPadding) {
     if (!xRange || !yRange || !xDomain || !yDomain) {
       return []
     }
@@ -64,8 +66,9 @@ export default Component.extend({
 
     return stackedData.reduce((arr, layer, index) => {
       return arr.concat(layer.map(entry => {
+        const transformedX = xTransform(entry.data[xProp])
         return {
-          x: xTransform(entry.data[xProp]),
+          x: yAxisTicksAboveLines ? transformedX + yTickLabelWidth + yAxisPadding : transformedX,
           y: yTransform(entry[1]),
           width: xTransform.bandwidth(),
           height: yTransform(entry[0]) - yTransform(entry[1]),
