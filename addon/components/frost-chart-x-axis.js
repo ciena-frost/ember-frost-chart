@@ -78,7 +78,8 @@ export default Component.extend({
   },
 
   @readOnly
-  @computed('chartState.axes.initialized', 'chartState.chart.width', 'yAxisTicksOnLines', 'chartState.axes.y.tickLabelWidth', 'yAxisPadding')
+  @computed('chartState.axes.initialized', 'chartState.chart.width',
+    'chartState.axes.y.{ticksOnLines,tickLabelWidth,padding}')
   /* eslint complexity: [2, 7] */
   style (initializedAxes, chartWidth, yAxisTicksOnLines, tickLabelWidth, yAxisPadding) {
     if (!initializedAxes || !chartWidth) {

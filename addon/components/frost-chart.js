@@ -32,6 +32,8 @@ export default Component.extend({
     yDomain: PropTypes.arrayOf(PropTypes.number).isRequired,
     yRange: PropTypes.arrayOf(PropTypes.number),
     yScale: PropTypes.func,
+    yAxisPadding: PropTypes.number,
+    yAxisTicksOnLines: PropTypes.bool,
 
     // state
     _chartState: PropTypes.EmberObject
@@ -67,7 +69,9 @@ export default Component.extend({
             lastTickMargin: null,
             renderedTicks: A(),
             ticks: null,
-            width: null
+            width: null,
+            padding: 0,
+            ticksOnLines: false
           })
         }),
         canvas: EmberObject.create({
@@ -193,6 +197,13 @@ export default Component.extend({
 
     this.set('_chartState.scale.x', this.get('xScale'))
     this.set('_chartState.scale.y', this.get('yScale'))
+
+    this.set('_chartState.axes.y.padding', this.get('yAxisPadding'))
+
+    const yAxisTicksOnLines = this.get('yAxisTicksOnLines')
+    if (yAxisTicksOnLines) {
+      this.set('_chartState.axes.y.ticksOnLines', yAxisTicksOnLines)
+    }
   },
 
   _setupXAxis ({alignment, height, tickHeight, width}) {

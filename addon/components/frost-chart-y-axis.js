@@ -104,9 +104,9 @@ export default Component.extend({
   _dispatchRenderedAxis () {
     const outerWidth = this.$().outerWidth(true)
     const tickLabelWidth = this.$('.frost-chart-y-axis-ticks').outerWidth(true)
-    let width = outerWidth + this.get('yAxisPadding')
+    let width = outerWidth + this.get('chartState.axes.y.padding')
 
-    if (this.get('yAxisTicksOnLines')) {
+    if (this.get('chartState.axes.y.ticksOnLines')) {
       width = outerWidth - tickLabelWidth
     }
 

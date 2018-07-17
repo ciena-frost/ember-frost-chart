@@ -8,8 +8,6 @@
       dispatch=(action '_dispatch')
       hook=(concat hookPrefix '-xAxis')
       ticks=(linear-ticks 10)
-      yAxisPadding=yAxisPadding
-      yAxisTicksOnLines=yAxisTicksOnLines
     )
 
     x-axis-svg=(component 'frost-chart-x-axis-svg'
@@ -26,16 +24,12 @@
       dispatch=(action '_dispatch')
       hook=(concat hookPrefix '-yAxis')
       ticks=(linear-ticks 10)
-      yAxisPadding=yAxisPadding
-      yAxisTicksOnLines=yAxisTicksOnLines
     )
 
     svg=(component 'frost-chart-svg'
       chartState=_chartState
       dispatch=(action '_dispatch')
       hook=(concat hookPrefix '-svg')
-      yAxisPadding=yAxisPadding
-      yAxisTicksOnLines=yAxisTicksOnLines
     )
   )
   _chartState

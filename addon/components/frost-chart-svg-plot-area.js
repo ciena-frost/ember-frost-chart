@@ -45,7 +45,7 @@ export default Component.extend({
 
   @readOnly
   @computed('boundingData.[]', 'data.[]', 'chartState.range.x', 'chartState.range.y', 'chartState.domain.x',
-    'chartState.domain.y', 'yAxisTicksOnLines', 'chartState.axes.y.tickLabelWidth', 'yAxisPadding')
+    'chartState.domain.y', 'chartState.axes.y.{ticksOnLines,tickLabelWidth,padding}')
   _path (boundingData, data, xRange, yRange, xDomain, yDomain, yAxisTicksOnLines, yTickLabelWidth, yAxisPadding) {
     if (!xRange || !yRange || !xDomain || !yDomain) {
       return []

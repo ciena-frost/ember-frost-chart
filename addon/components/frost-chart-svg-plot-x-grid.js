@@ -39,7 +39,8 @@ export default Component.extend({
   // == Computed Properties ===================================================
 
   @readOnly
-  @computed('chartState.range.x', 'chartState.range.y', 'chartState.domain.x', 'startOnly', 'yAxisTicksOnLines', 'chartState.axes.y.tickLabelWidth', 'yAxisPadding')
+  @computed('chartState.range.x', 'chartState.range.y', 'chartState.domain.x', 'startOnly',
+    'chartState.axes.y.{ticksOnLines,tickLabelWidth,padding}')
   _ticks (xRange, yRange, xDomain, startOnly, yAxisTicksOnLines, yTickLabelWidth, yAxisPadding) {
     if (!xRange || !yRange || !isDomainValid(xDomain)) {
       return []
