@@ -3,6 +3,7 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
 import {PropTypes} from 'ember-prop-types'
 import layout from '../templates/components/frost-chart-svg-plot-stacked-bar'
+import getTransformedX from 'ember-frost-chart/utils/transform'
 
 export default Component.extend({
 
@@ -66,9 +67,8 @@ export default Component.extend({
 
     return stackedData.reduce((arr, layer, index) => {
       return arr.concat(layer.map(entry => {
-        const transformedX = xTransform(entry.data[xProp])
         return {
-          x: yAxisTicksAboveLines ? transformedX + yTickLabelWidth + yAxisPadding : transformedX,
+          x: getTransformedX(entry.data[xProp], xTransform, yAxisTicksAboveLines, yTickLabelWidth, yAxisPadding),
           y: yTransform(entry[1]),
           width: xTransform.bandwidth(),
           height: yTransform(entry[0]) - yTransform(entry[1]),

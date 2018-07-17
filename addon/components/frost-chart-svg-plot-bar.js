@@ -7,8 +7,8 @@ const {assign, get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
 import {PropTypes} from 'ember-prop-types'
-
 import layout from '../templates/components/frost-chart-svg-plot-bar'
+import getTransformedX from 'ember-frost-chart/utils/transform'
 
 export default Component.extend({
 
@@ -59,11 +59,10 @@ export default Component.extend({
     return data.map(entry => {
       const x = get(entry, this.x)
       const y = get(entry, this.y)
-      const transformedX = xTransform(x)
 
       return assign({}, this.bar({data, x, xRange, xTransform, y, yRange, yTransform}), {
         data: entry,
-        x: yAxisTicksAboveLines ? transformedX + yTickLabelWidth + yAxisPadding : transformedX,
+        x: getTransformedX(x, xTransform, yAxisTicksAboveLines, yTickLabelWidth, yAxisPadding),
         y: yTransform(y)
       })
     })

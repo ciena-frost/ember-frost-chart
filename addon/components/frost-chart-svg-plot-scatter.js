@@ -7,8 +7,8 @@ const {get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
 import {PropTypes} from 'ember-prop-types'
-
 import layout from '../templates/components/frost-chart-svg-plot-scatter'
+import getTransformedX from 'ember-frost-chart/utils/transform'
 
 export default Component.extend({
 
@@ -56,10 +56,9 @@ export default Component.extend({
     const yTransform = yScale({domain: yDomain, range: yRange})
 
     return data.map((entry, index) => {
-      const transformedX = xTransform(get(entry, this.x))
       return {
         index,
-        x: yAxisTicksAboveLines ? transformedX + yTickLabelWidth + yAxisPadding : transformedX,
+        x: getTransformedX(get(entry, this.x), xTransform, yAxisTicksAboveLines, yTickLabelWidth, yAxisPadding),
         y: yTransform(get(entry, this.y))
       }
     })
