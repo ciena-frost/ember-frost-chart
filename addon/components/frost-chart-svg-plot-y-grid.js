@@ -39,24 +39,23 @@ export default Component.extend({
   // == Computed Properties ===================================================
 
   @readOnly
-  @computed('chartState.range.x', 'chartState.range.y', 'chartState.domain.y', 'startOnly')
-  _ticks (xRange, yRange, yDomain, startOnly) {
+  @computed('chartState.range.x', 'chartState.range.y', 'chartState.domain.y', 'axesOnly')
+  _ticks (xRange, yRange, yDomain, axesOnly) {
     if (!xRange || !yRange || !isDomainValid(yDomain)) {
       return []
     }
 
     const yScale = this.get('chartState.scale.y')
     const yTransform = yScale({domain: yDomain, range: yRange})
-    const ticks = this.get('ticks')(yDomain)
 
-    const ticksmap = ticks.map(tick => {
+    const ticks = this.get('ticks')(yDomain).map(tick => {
       return {
         x: xRange[1],
         y: yTransform(get(tick, 'value'))
       }
     })
 
-    return startOnly ? [ticksmap[0]] : ticksmap
+    return axesOnly ? [ticks[0]] : ticks
   }
 
   // == Functions =============================================================

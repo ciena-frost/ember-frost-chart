@@ -7,6 +7,7 @@ const {get} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {Component} from 'ember-frost-core'
 import {PropTypes} from 'ember-prop-types'
+
 import layout from '../templates/components/frost-chart-svg-plot-scatter'
 
 export default Component.extend({
