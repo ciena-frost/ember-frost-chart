@@ -172,16 +172,17 @@ export default Component.extend({
   },
 
   _setupRange () {
+    const {padding, renderedTicks, tickLabelWidth, ticksAboveLines} = this.get('_chartState.axes.y')
     if (isEmpty(this.get('xRange'))) {
       const canvasWidth = this.get('_chartState.canvas.width')
-      const {padding, tickLabelWidth, ticksAboveLines} = this.get('_chartState.axes.y')
       const minRange = ticksAboveLines ? tickLabelWidth + padding : 0
 
       this.set('_chartState.range.x', [minRange, canvasWidth])
     }
 
     if (isEmpty(this.get('yRange'))) {
-      this.set('_chartState.range.y', [this.get('_chartState.canvas.height'), 0])
+      const heightOffset = ticksAboveLines ? get(renderedTicks, 'firstObject.height') : 0
+      this.set('_chartState.range.y', [this.get('_chartState.canvas.height'), heightOffset])
     }
   },
 
