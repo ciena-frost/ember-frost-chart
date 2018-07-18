@@ -33,7 +33,7 @@ export default Component.extend({
     yRange: PropTypes.arrayOf(PropTypes.number),
     yScale: PropTypes.func,
     yAxisPadding: PropTypes.number,
-    yAxisTicksAboveLines: PropTypes.bool,
+    yAxisTickLabelsAboveTicks: PropTypes.bool,
 
     // state
     _chartState: PropTypes.EmberObject
@@ -71,7 +71,7 @@ export default Component.extend({
             ticks: null,
             width: null,
             padding: 0,
-            ticksAboveLines: false
+            tickLabelsAboveTicks: false
           })
         }),
         canvas: EmberObject.create({
@@ -172,16 +172,16 @@ export default Component.extend({
   },
 
   _setupRange () {
-    const {padding, renderedTicks, tickLabelWidth, ticksAboveLines} = this.get('_chartState.axes.y')
+    const {padding, renderedTicks, tickLabelWidth, tickLabelsAboveTicks} = this.get('_chartState.axes.y')
     if (isEmpty(this.get('xRange'))) {
       const canvasWidth = this.get('_chartState.canvas.width')
-      const minRange = ticksAboveLines ? tickLabelWidth + padding : 0
+      const minRange = tickLabelsAboveTicks ? tickLabelWidth + padding : 0
 
       this.set('_chartState.range.x', [minRange, canvasWidth])
     }
 
     if (isEmpty(this.get('yRange'))) {
-      const heightOffset = ticksAboveLines ? get(renderedTicks, 'firstObject.height') : 0
+      const heightOffset = tickLabelsAboveTicks ? get(renderedTicks, 'firstObject.height') : 0
       this.set('_chartState.range.y', [this.get('_chartState.canvas.height'), heightOffset])
     }
   },
@@ -205,9 +205,9 @@ export default Component.extend({
 
     this.set('_chartState.axes.y.padding', this.get('yAxisPadding'))
 
-    const yAxisTicksAboveLines = this.get('yAxisTicksAboveLines')
-    if (yAxisTicksAboveLines) {
-      this.set('_chartState.axes.y.ticksAboveLines', yAxisTicksAboveLines)
+    const yAxisTickLabelsAboveTicks = this.get('yAxisTickLabelsAboveTicks')
+    if (yAxisTickLabelsAboveTicks) {
+      this.set('_chartState.axes.y.tickLabelsAboveTicks', yAxisTickLabelsAboveTicks)
     }
   },
 
