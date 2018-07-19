@@ -1,3 +1,7 @@
+# 7.2.0 (2018-07-19)
+
+* Add `yAxisPadding` and `yAxisTickLabelsAboveTicks` props to `frost-chart` and `axesOnly` prop to the x and y grid components.
+
 # 7.1.0 (2018-05-04)
 - Add stacked-bar chart type
 
