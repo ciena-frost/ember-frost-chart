@@ -32,6 +32,8 @@ export default Component.extend({
     yDomain: PropTypes.arrayOf(PropTypes.number).isRequired,
     yRange: PropTypes.arrayOf(PropTypes.number),
     yScale: PropTypes.func,
+    yAxisPadding: PropTypes.number,
+    yAxisTickLabelsAboveTicks: PropTypes.bool,
 
     // state
     _chartState: PropTypes.EmberObject
@@ -42,6 +44,7 @@ export default Component.extend({
       // options
       xScale: linearScale(),
       yScale: linearScale(),
+      yAxisPadding: 0,
 
       // state
       _chartState: EmberObject.create({
@@ -66,7 +69,9 @@ export default Component.extend({
             lastTickMargin: null,
             renderedTicks: A(),
             ticks: null,
-            width: null
+            width: null,
+            padding: 0,
+            tickLabelsAboveTicks: false
           })
         }),
         canvas: EmberObject.create({
@@ -167,12 +172,17 @@ export default Component.extend({
   },
 
   _setupRange () {
+    const {padding, renderedTicks, tickLabelWidth, tickLabelsAboveTicks} = this.get('_chartState.axes.y')
     if (isEmpty(this.get('xRange'))) {
-      this.set('_chartState.range.x', [0, this.get('_chartState.canvas.width')])
+      const canvasWidth = this.get('_chartState.canvas.width')
+      const minRange = tickLabelsAboveTicks ? tickLabelWidth + padding : 0
+
+      this.set('_chartState.range.x', [minRange, canvasWidth])
     }
 
     if (isEmpty(this.get('yRange'))) {
-      this.set('_chartState.range.y', [this.get('_chartState.canvas.height'), 0])
+      const heightOffset = tickLabelsAboveTicks ? get(renderedTicks, 'firstObject.height') : 0
+      this.set('_chartState.range.y', [this.get('_chartState.canvas.height'), heightOffset])
     }
   },
 
@@ -192,6 +202,13 @@ export default Component.extend({
 
     this.set('_chartState.scale.x', this.get('xScale'))
     this.set('_chartState.scale.y', this.get('yScale'))
+
+    this.set('_chartState.axes.y.padding', this.get('yAxisPadding'))
+
+    const yAxisTickLabelsAboveTicks = this.get('yAxisTickLabelsAboveTicks')
+    if (yAxisTickLabelsAboveTicks) {
+      this.set('_chartState.axes.y.tickLabelsAboveTicks', yAxisTickLabelsAboveTicks)
+    }
   },
 
   _setupXAxis ({alignment, height, tickHeight, width}) {
@@ -217,7 +234,7 @@ export default Component.extend({
     }
   },
 
-  _setupYAxis ({alignment, height, width}) {
+  _setupYAxis ({alignment, height, width, tickLabelWidth}) {
     const renderedTicks = this.get('_chartState.axes.y.renderedTicks')
     const firstTickMargin = renderedTicks.get('firstObject.height') / 2
     const lastTickMargin = renderedTicks.get('lastObject.height') / 2
@@ -227,7 +244,8 @@ export default Component.extend({
       firstTickMargin,
       height: height - firstTickMargin - lastTickMargin,
       lastTickMargin,
-      width
+      width,
+      tickLabelWidth
     })
 
     this.incrementProperty('_chartState.axes.rendered')

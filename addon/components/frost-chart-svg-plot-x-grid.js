@@ -23,7 +23,8 @@ export default Component.extend({
   propTypes: {
     // options
     chartState: PropTypes.EmberObject.isRequired,
-    ticks: PropTypes.func.isRequired
+    ticks: PropTypes.func.isRequired,
+    axesOnly: PropTypes.bool
 
     // state
   },
@@ -39,22 +40,23 @@ export default Component.extend({
   // == Computed Properties ===================================================
 
   @readOnly
-  @computed('chartState.range.x', 'chartState.range.y', 'chartState.domain.x')
-  _ticks (xRange, yRange, xDomain) {
+  @computed('chartState.range.x', 'chartState.range.y', 'chartState.domain.x', 'axesOnly')
+  _ticks (xRange, yRange, xDomain, axesOnly) {
     if (!xRange || !yRange || !isDomainValid(xDomain)) {
       return []
     }
 
     const xScale = this.get('chartState.scale.x')
     const xTransform = xScale({domain: xDomain, range: xRange})
-    const ticks = this.get('ticks')(xDomain)
 
-    return ticks.map(tick => {
+    const ticks = this.get('ticks')(xDomain).map(tick => {
       return {
         x: xTransform(get(tick, 'value')),
         y: yRange[0]
       }
     })
+
+    return axesOnly ? [ticks[0]] : ticks
   }
 
   // == Functions =============================================================
