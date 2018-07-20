@@ -1,3 +1,8 @@
+# 7.2.1 (2018-07-20)
+
+* **Fixed** Travis API key.
+
+
 # 7.2.0 (2018-07-19)
 
 * Add `yAxisPadding` and `yAxisTickLabelsAboveTicks` props to `frost-chart` and `axesOnly` prop to the x and y grid components.
