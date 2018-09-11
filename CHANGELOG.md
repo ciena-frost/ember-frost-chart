@@ -1,3 +1,8 @@
+# 7.2.2 (2018-09-11)
+
+* **Fixed** Travis API key.
+
+
 # 7.2.1 (2018-07-20)
 
 * **Fixed** Travis API key.
